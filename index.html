@@ -502,6 +502,31 @@
     .rv.d2 { transition-delay: 160ms; }
     .rv.d3 { transition-delay: 240ms; }
 
+    /* ─── HERO VIDEO ─────────────────────────────── */
+    .hvid {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      z-index: 0;
+    }
+    .hovl {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    }
+    .ly-i .hovl {
+      background: linear-gradient(to top,
+        rgba(242,237,227,0.97) 0%,
+        rgba(242,237,227,0.62) 42%,
+        rgba(242,237,227,0.22) 100%);
+    }
+    .ly-b .hovl {
+      background: linear-gradient(to top,
+        rgba(27,58,42,0.98) 0%,
+        rgba(27,58,42,0.62) 42%,
+        rgba(27,58,42,0.22) 100%);
+    }
+    .hwm { z-index: 2; }
+    .hbody { position: relative; z-index: 3; }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; }
     }
@@ -607,21 +632,27 @@
 
       <!-- HERO -->
       <section class="hero">
+        <video class="hvid" muted playsinline preload="auto">
+          <source src="assets/videos/apartment.mp4" type="video/mp4">
+        </video>
+        <div class="hovl" aria-hidden="true"></div>
         <svg class="hwm" viewBox="0 0 200 160" stroke="currentColor" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
           <path d="M10 155L60 15l40 70 40-70 40 140"/>
         </svg>
-        <p class="hey">Immobilienverwaltung</p>
-        <h1 class="hh1">Verantwortung<br>für Ihre Immobilien.</h1>
-        <p class="hsub">Persönliche Betreuung. Klare Abläufe. Transparente Kommunikation.</p>
-        <div class="hprompt" aria-hidden="true">
-          Jetzt wählen
-          <svg viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 8h10M9 4l4 4-4 4"/>
-          </svg>
-        </div>
-        <div class="hctas">
-          <a href="#" class="bp" data-sc="leistungen">Leistungen entdecken</a>
-          <a href="#" class="bo" data-sc="kontakt">Erstgespräch vereinbaren</a>
+        <div class="hbody">
+          <p class="hey">Immobilienverwaltung</p>
+          <h1 class="hh1">Verantwortung<br>für Ihre Immobilien.</h1>
+          <p class="hsub">Persönliche Betreuung. Klare Abläufe. Transparente Kommunikation.</p>
+          <div class="hprompt" aria-hidden="true">
+            Jetzt wählen
+            <svg viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 8h10M9 4l4 4-4 4"/>
+            </svg>
+          </div>
+          <div class="hctas">
+            <a href="#" class="bp" data-sc="leistungen">Leistungen entdecken</a>
+            <a href="#" class="bo" data-sc="kontakt">Erstgespräch vereinbaren</a>
+          </div>
         </div>
       </section>
 
@@ -814,21 +845,27 @@
 
       <!-- HERO -->
       <section class="hero">
+        <video class="hvid" muted playsinline preload="auto">
+          <source src="assets/videos/desk.mp4" type="video/mp4">
+        </video>
+        <div class="hovl" aria-hidden="true"></div>
         <svg class="hwm" viewBox="0 0 200 160" stroke="currentColor" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
           <path d="M10 155L60 15l40 70 40-70 40 140"/>
         </svg>
-        <p class="hey">Buchhaltung &amp; Backoffice</p>
-        <h2 class="hh1">Zahlen im Griff.<br>Belege in Ordnung.</h2>
-        <p class="hsub">Vollständige Buchführung. Effizienter Backoffice-Service. Sorgfalt bis ins Detail.</p>
-        <div class="hprompt" aria-hidden="true">
-          Jetzt wählen
-          <svg viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 8h10M9 4l4 4-4 4"/>
-          </svg>
-        </div>
-        <div class="hctas">
-          <a href="#" class="bp" data-sc="leistungen">Leistungen entdecken</a>
-          <a href="#" class="bo" data-sc="kontakt">Erstgespräch vereinbaren</a>
+        <div class="hbody">
+          <p class="hey">Buchhaltung &amp; Backoffice</p>
+          <h2 class="hh1">Zahlen im Griff.<br>Belege in Ordnung.</h2>
+          <p class="hsub">Vollständige Buchführung. Effizienter Backoffice-Service. Sorgfalt bis ins Detail.</p>
+          <div class="hprompt" aria-hidden="true">
+            Jetzt wählen
+            <svg viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 8h10M9 4l4 4-4 4"/>
+            </svg>
+          </div>
+          <div class="hctas">
+            <a href="#" class="bp" data-sc="leistungen">Leistungen entdecken</a>
+            <a href="#" class="bo" data-sc="kontakt">Erstgespräch vereinbaren</a>
+          </div>
         </div>
       </section>
 
@@ -1118,6 +1155,39 @@
 
   // Observe visible elements on load
   revealCheck();
+
+  /* ── Ping-pong video playback ──────────────────────── */
+  function pingpong(video) {
+    let reversing = false;
+    let prev = null;
+
+    function reverseFrame(now) {
+      const dt = prev !== null ? (now - prev) / 1000 : 1 / 60;
+      prev = now;
+      video.currentTime = Math.max(0, video.currentTime - dt);
+      if (video.currentTime > 0.001) {
+        requestAnimationFrame(reverseFrame);
+      } else {
+        video.currentTime = 0;
+        reversing = false;
+        prev = null;
+        video.play().catch(() => {});
+      }
+    }
+
+    video.addEventListener('ended', () => {
+      if (reversing) return;
+      reversing = true;
+      video.pause();
+      prev = null;
+      requestAnimationFrame(reverseFrame);
+    });
+
+    video.muted = true;
+    video.play().catch(() => {});
+  }
+
+  document.querySelectorAll('.hvid').forEach(pingpong);
 })();
 </script>
 </body>
