@@ -1571,7 +1571,7 @@
           body: new URLSearchParams(new FormData(form)).toString()
         });
         form.innerHTML = '<p class="cf-ok">Vielen Dank! Wir melden uns innerhalb von 24 Stunden bei Ihnen.</p>';
-      } catch {
+      } catch(err) {
         btn.textContent = orig;
         btn.disabled = false;
       }
