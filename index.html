@@ -84,6 +84,7 @@
       display: flex; align-items: center; gap: 14px; flex-shrink: 0;
     }
     .lang { display: flex; align-items: center; gap: 2px; pointer-events: all; }
+    .lang-sel { display: none; }
     .lb {
       font-family: 'Lexend', sans-serif; font-size: 10px; font-weight: 700;
       letter-spacing: 0.14em; text-transform: uppercase;
@@ -601,49 +602,90 @@
       :root { --hh: 56px; }
       body { overflow: hidden; }
 
-      .ly-i, .ly-b {
-        width: 100% !important;
-        left: 0; right: 0;
-        transition: height var(--dur) var(--ez), transform var(--dur) var(--ez);
+      /* ── Header: compact ── */
+      .hl-name, .hl-sep { display: none; }
+      .hcta     { display: none !important; }
+      .lang     { display: none; }
+      .lang-sel {
+        display: block;
+        font-family: 'Lexend', sans-serif; font-size: 10px; font-weight: 700;
+        letter-spacing: 0.14em; text-transform: uppercase;
+        color: var(--g); border: 1.5px solid rgba(27,58,42,0.35);
+        border-radius: 4px; background: transparent;
+        padding: 5px 22px 5px 8px; cursor: pointer;
+        -webkit-appearance: none; appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath fill='%231B3A2A' d='M0 0l4 5 4-5z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat; background-position: right 7px center; background-size: 7px;
       }
-      .ly-i { top: 0; height: 50%; }
-      .ly-b { top: 50%; height: 50%; }
+      [data-state="buch"] .lang-sel {
+        color: var(--cr); border-color: rgba(242,237,227,0.4);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath fill='%23F2EDE3' d='M0 0l4 5 4-5z'/%3E%3C/svg%3E");
+      }
 
-      [data-state="immo"] .ly-i { height: 100%; }
-      [data-state="immo"] .ly-b { height: 0; top: 100%; }
-      [data-state="buch"] .ly-b { height: 100%; top: 0; }
-      [data-state="buch"] .ly-i { height: 0; }
+      /* ── Panels: diagonal split (full-height, clip-path) ── */
+      .ly-i, .ly-b {
+        width: 100% !important; left: 0 !important; right: 0; top: 0; height: 100%;
+        transition: clip-path var(--dur) var(--ez), transform var(--dur) var(--ez) !important;
+      }
+      .lsc { min-width: 0; }
+
+      /* Split state default: diagonal clip */
+      .ly-i { clip-path: polygon(0 0, 58% 0, 42% 100%, 0 100%); }
+      .ly-b { clip-path: polygon(58% 0, 100% 0, 100% 100%, 42% 100%); }
+
+      /* Immo selected: immo expands full, buch collapses right */
+      [data-state="immo"] .ly-i { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+      [data-state="immo"] .ly-b { clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%); }
+      /* Buch selected: buch expands full, immo collapses left */
+      [data-state="buch"] .ly-b { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+      [data-state="buch"] .ly-i { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); }
 
       #dvl { display: none; }
-      .hn { display: none; }
+      .hn  { display: none; }
+      .hr  { margin-left: auto; }
 
+      /* Float tabs: top/bottom centre (unchanged layout) */
       .ftab { width: 80px; height: 36px; top: auto; transform: none; border-radius: 0; }
       #ft-b {
         right: 50%; bottom: 0; top: auto;
         border-radius: 10px 10px 0 0;
         transform: translateX(50%) translateY(100%);
       }
-      [data-state="immo"] #ft-b {
-        transform: translateX(50%) translateY(0);
-      }
+      [data-state="immo"] #ft-b { transform: translateX(50%) translateY(0); }
       [data-state="immo"] #ft-b:hover { transform: translateX(50%) translateY(-4px); }
       #ft-i {
         left: 50%; top: 0;
         border-radius: 0 0 10px 10px;
         transform: translateX(-50%) translateY(-100%);
       }
-      [data-state="buch"] #ft-i {
-        transform: translateX(-50%) translateY(0);
-      }
+      [data-state="buch"] #ft-i { transform: translateX(-50%) translateY(0); }
       [data-state="buch"] #ft-i:hover { transform: translateX(-50%) translateY(4px); }
 
+      /* Split diagonal: content layout */
+      [data-state="split"] .hero { padding: var(--hh) 18px 40px; }
+      [data-state="split"] .hsub,
+      [data-state="split"] .hctas { display: none !important; }
+      [data-state="split"] .hh1     { font-size: clamp(13px, 3.8vw, 20px) !important; line-height: 1.2; }
+      [data-state="split"] .hey     { font-size: 7px; gap: 5px; }
+      [data-state="split"] .hey::before { width: 16px; }
+      [data-state="split"] .hprompt { font-size: 10px; }
+      /* Immo: constrain to left triangle (42% wide at bottom minus 18px padding) */
+      [data-state="split"] .ly-i .hbody { max-width: calc(42% - 20px); }
+      /* Buch: push content into right triangle */
+      [data-state="split"] .ly-b .hero  { align-items: flex-end; }
+      [data-state="split"] .ly-b .hbody { max-width: 50%; text-align: right; }
+      [data-state="split"] .ly-b .hey    { flex-direction: row-reverse; justify-content: flex-end; }
+      [data-state="split"] .ly-b .hey::before { display: none; }
+      [data-state="split"] .ly-b .hprompt { justify-content: flex-end; }
+
+      /* General mobile spacing */
       .hero { padding-bottom: 44px; }
       .sec, .usec, .csec { padding: 56px 20px; }
       .si { padding: 24px 0; }
       .si:nth-child(even) { padding: 24px 0; }
       .sftr { flex-direction: column; align-items: flex-start; }
-      .ftr { flex-direction: column; align-items: flex-start; }
-      .hh1 { font-size: clamp(26px, 8vw, 40px); }
+      .ftr  { flex-direction: column; align-items: flex-start; }
+      .hh1  { font-size: clamp(26px, 8vw, 40px); }
     }
 
     /* ── Custom cursor ──────────────────────────────────────── */
@@ -700,6 +742,11 @@
         <span class="ls" aria-hidden="true">·</span>
         <button class="lb" aria-pressed="false">EN</button>
       </div>
+      <select class="lang-sel" aria-label="Sprache">
+        <option value="DE">DE</option>
+        <option value="TR">TR</option>
+        <option value="EN">EN</option>
+      </select>
       <a href="#" class="hcta" data-sc="kontakt">Erstgespräch</a>
     </div>
   </header>
@@ -1493,14 +1540,25 @@
   }
 
   /* ── Language switcher ─────────────────────────────── */
-  document.querySelectorAll('.lb').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.lb').forEach(b => { b.classList.remove('on'); b.setAttribute('aria-pressed', 'false'); });
-      btn.classList.add('on');
-      btn.setAttribute('aria-pressed', 'true');
-      applyLang(btn.textContent.trim());
+  const langSel = document.querySelector('.lang-sel');
+
+  function setLang(lang) {
+    document.querySelectorAll('.lb').forEach(b => {
+      const active = b.textContent.trim() === lang;
+      b.classList.toggle('on', active);
+      b.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
+    if (langSel) langSel.value = lang;
+    applyLang(lang);
+  }
+
+  document.querySelectorAll('.lb').forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.textContent.trim()));
   });
+
+  if (langSel) {
+    langSel.addEventListener('change', () => setLang(langSel.value));
+  }
 
   /* ── Header scroll shadow ──────────────────────────── */
   [scI, scB].forEach(sc => {
