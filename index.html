@@ -644,22 +644,22 @@
       .hn  { display: none; }
       .hr  { margin-left: auto; }
 
-      /* Float tabs: top/bottom centre (unchanged layout) */
-      .ftab { width: 80px; height: 36px; top: auto; transform: none; border-radius: 0; }
+      /* Float tabs: left/right sides (same as desktop) */
+      .ftab { top: 50%; }
       #ft-b {
-        right: 50%; bottom: 0; top: auto;
-        border-radius: 10px 10px 0 0;
-        transform: translateX(50%) translateY(100%);
+        right: 0; bottom: auto;
+        border-radius: 10px 0 0 10px;
+        transform: translateY(-50%) translateX(100%);
       }
-      [data-state="immo"] #ft-b { transform: translateX(50%) translateY(0); }
-      [data-state="immo"] #ft-b:hover { transform: translateX(50%) translateY(-4px); }
+      [data-state="immo"] #ft-b { transform: translateY(-50%) translateX(0); }
+      [data-state="immo"] #ft-b:hover { transform: translateY(-50%) translateX(-5px); }
       #ft-i {
-        left: 50%; top: 0;
-        border-radius: 0 0 10px 10px;
-        transform: translateX(-50%) translateY(-100%);
+        left: 0; top: 50%;
+        border-radius: 0 10px 10px 0;
+        transform: translateY(-50%) translateX(-100%);
       }
-      [data-state="buch"] #ft-i { transform: translateX(-50%) translateY(0); }
-      [data-state="buch"] #ft-i:hover { transform: translateX(-50%) translateY(4px); }
+      [data-state="buch"] #ft-i { transform: translateY(-50%) translateX(0); }
+      [data-state="buch"] #ft-i:hover { transform: translateY(-50%) translateX(5px); }
 
       /* Split diagonal: content layout */
       [data-state="split"] .hero { padding: var(--hh) 18px 40px; }
