@@ -1,0 +1,231 @@
+/* ============================================================
+   AVKUS GmbH — Organism: Split Hero
+   ============================================================ */
+
+.hero {
+  margin-top: var(--header-h);
+  height: calc(100dvh - var(--header-h));
+  min-height: 560px;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ── Each panel ─────────────────────────────────────────── */
+.hero__panel {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--sp-12) var(--sp-10) var(--sp-12);
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  transition: flex var(--dur-slow) var(--ease-inout);
+}
+
+.hero:hover .hero__panel { flex: 0.88; }
+.hero__panel:hover        { flex: 1.12 !important; }
+
+.hero__panel--verwaltung  { background-color: var(--color-cream-100); }
+.hero__panel--buchhaltung { background-color: var(--color-green-800); }
+
+/* ── Divider */
+.hero__divider {
+  position: relative;
+  z-index: var(--z-above);
+  width: 1px;
+  background-color: var(--color-cream-dark);
+  flex-shrink: 0;
+  align-self: stretch;
+  pointer-events: none;
+}
+
+/* ── Watermark */
+.hero__watermark {
+  position: absolute;
+  bottom: -40px;
+  right: -20px;
+  width: min(320px, 55%);
+  opacity: 0.06;
+  pointer-events: none;
+  color: var(--color-primary);
+}
+
+.hero__panel--buchhaltung .hero__watermark {
+  color: var(--color-white);
+  opacity: 0.07;
+}
+
+/* ── Eyebrow */
+.hero__eyebrow {
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  margin-bottom: var(--sp-4);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.hero__eyebrow::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background-color: currentColor;
+}
+
+.hero__panel--verwaltung  .hero__eyebrow { color: var(--color-green-600); }
+.hero__panel--buchhaltung .hero__eyebrow { color: var(--color-green-200); }
+
+/* ── Headline */
+.hero__headline {
+  font-family: var(--font-heading);
+  font-size: clamp(var(--text-3xl), 4.5vw, var(--text-6xl));
+  font-weight: var(--fw-extrabold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  margin-bottom: var(--sp-5);
+}
+
+.hero__panel--verwaltung  .hero__headline { color: #0b3c42; }
+.hero__panel--buchhaltung .hero__headline { color: var(--color-cream-100); }
+
+/* ── Sub paragraph */
+.hero__sub {
+  font-family: var(--font-body);
+  font-size: clamp(var(--text-sm), 1.2vw, var(--text-base));
+  line-height: var(--leading-relaxed);
+  max-width: 360px;
+  margin-bottom: var(--sp-8);
+}
+
+.hero__panel--verwaltung  .hero__sub { color: var(--color-gray-500); }
+.hero__panel--buchhaltung .hero__sub { color: var(--color-green-200); }
+
+/* ── Bullet list */
+.hero__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-8);
+}
+
+.hero__list-item {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.hero__list-item::before {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: currentColor;
+  flex-shrink: 0;
+}
+
+.hero__panel--verwaltung  .hero__list-item { color: var(--color-text-muted); }
+.hero__panel--buchhaltung .hero__list-item { color: var(--color-green-200); }
+
+/* ── CTA row */
+.hero__cta {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  flex-wrap: wrap;
+}
+
+/* ── Link */
+.hero__link {
+  font-family: var(--font-heading);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  text-decoration: none;
+  transition:
+    gap   var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out);
+}
+
+.hero__link:hover { gap: var(--sp-3); }
+
+.hero__panel--verwaltung  .hero__link { color: var(--color-primary); }
+.hero__panel--buchhaltung .hero__link { color: var(--color-cream-100); }
+
+/* ── Hover shimmer */
+.hero__panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 60%, rgba(0,0,0,0.04) 100%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+.hero__panel:hover::before { opacity: 1; }
+
+/* ── Scroll indicator */
+.hero__scroll {
+  position: absolute;
+  bottom: var(--sp-6);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  color: var(--color-text-muted);
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  animation: bounce 2s var(--ease-inout) infinite;
+  pointer-events: none;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(6px); }
+}
+
+/* ── Mobile */
+@media (max-width: 767px) {
+  .hero {
+    flex-direction: column;
+    height: auto;
+    min-height: calc(100dvh - var(--header-h));
+  }
+
+  .hero__panel {
+    flex: none;
+    min-height: 50dvh;
+    padding: var(--sp-10) var(--sp-6) var(--sp-8);
+  }
+
+  .hero:hover .hero__panel,
+  .hero__panel:hover { flex: none !important; }
+
+  .hero__divider { width: auto; height: 1px; }
+
+  .hero__headline { font-size: clamp(var(--text-2xl), 8vw, var(--text-4xl)); }
+  .hero__watermark { width: min(200px, 50%); }
+  .hero__sub { max-width: 100%; }
+  .hero__scroll { display: none; }
+}
+
+@media (max-width: 480px) {
+  .hero__panel { padding: var(--sp-8) var(--sp-5) var(--sp-8); }
+}

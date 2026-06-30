@@ -1,0 +1,74 @@
+/* ============================================================
+   AVKUS GmbH — Molecule: Contact Info Row
+   ============================================================ */
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.contact-info__row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-4);
+}
+
+.contact-info__icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.contact-info__text {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  line-height: var(--leading-snug);
+}
+
+.contact-info__text a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.contact-info__text a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* ── On dark background */
+.contact-info--dark .contact-info__icon {
+  color: var(--color-cream-100);
+}
+
+.contact-info--dark .contact-info__text {
+  color: var(--color-cream-100);
+}
+
+.contact-info--dark .contact-info__text a {
+  color: var(--color-cream-100);
+}
+
+/* ── Language badges */
+.lang-badges {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.lang-badge {
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  padding: var(--sp-1) var(--sp-3);
+  border: 1px solid currentColor;
+  color: var(--color-primary);
+}
+
+.lang-badge--light {
+  color: var(--color-cream-100);
+}

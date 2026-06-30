@@ -1,0 +1,59 @@
+/* ============================================================
+   AVKUS GmbH — Molecule: USP Card
+   ============================================================ */
+
+.usp-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding: var(--sp-8) var(--sp-6);
+  background-color: var(--color-cream-50);
+  border-top: 3px solid var(--color-primary);
+  transition:
+    box-shadow var(--dur-base) var(--ease-out),
+    transform  var(--dur-base) var(--ease-out);
+}
+
+.usp-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.usp-card__icon {
+  color: var(--color-primary);
+}
+
+.usp-card__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-base);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-primary);
+  line-height: var(--leading-snug);
+}
+
+.usp-card__text {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+}
+
+/* ── Variant: dark background */
+.usp-card--dark {
+  background-color: rgba(255,255,255,0.05);
+  border-top-color: var(--color-cream-100);
+}
+
+.usp-card--dark .usp-card__icon {
+  color: var(--color-cream-100);
+}
+
+.usp-card--dark .usp-card__title {
+  color: var(--color-cream-100);
+}
+
+.usp-card--dark .usp-card__text {
+  color: var(--color-text-on-dark-muted);
+}

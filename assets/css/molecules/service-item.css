@@ -1,0 +1,65 @@
+/* ============================================================
+   AVKUS GmbH — Molecule: Service Item
+   ============================================================ */
+
+.service-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-4);
+  padding: var(--sp-5) 0;
+  border-bottom: 1px solid var(--color-border);
+  transition: padding-left var(--dur-base) var(--ease-out);
+}
+
+.service-item:last-child {
+  border-bottom: none;
+}
+
+.service-item:hover {
+  padding-left: var(--sp-2);
+}
+
+/* ── Icon wrapper */
+.service-item__icon {
+  color: var(--color-primary);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* ── Text content */
+.service-item__body {
+  flex: 1;
+}
+
+.service-item__title {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--fw-medium);
+  color: var(--color-text);
+  line-height: var(--leading-snug);
+}
+
+.service-item__desc {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--sp-1);
+  line-height: var(--leading-normal);
+}
+
+/* ── On dark background variant */
+.service-item--dark {
+  border-bottom-color: var(--color-border-dark);
+}
+
+.service-item--dark .service-item__icon {
+  color: var(--color-green-200);
+}
+
+.service-item--dark .service-item__title {
+  color: var(--color-cream-100);
+}
+
+.service-item--dark .service-item__desc {
+  color: var(--color-text-on-dark-muted);
+}

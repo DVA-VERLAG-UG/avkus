@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AVKUS GmbH – Immobilienverwaltung &amp; Buchhaltung</title>
+  <meta name="description" content="AVKUS GmbH Bremen – Immobilienverwaltung und Buchhaltung. Persönlich. Strukturiert. Mehrsprachig.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700;800&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body { font-family: 'Source Sans 3', system-ui, sans-serif; overflow: hidden; -webkit-font-smoothing: antialiased; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; font-family: inherit; border: none; background: none; }
+    svg { display: block; fill: none; }
+
+    :root {
+      --g:    #1B3A2A;
+      --g2:   #234e38;
+      --gm:   #a8c9b6;
+      --gf:   #4a7c61;
+      --cr:   #F2EDE3;
+      --crd:  #e8e0d3;
+      --crdk: #c4bbb0;
+      --tx:   #1a1a1a;
+      --mu:   #6b6b6b;
+      --hh:   68px;
+      --dur:  520ms;
+      --ez:   cubic-bezier(0.76, 0, 0.24, 1);
+      --ezo:  cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ─── HEADER ─────────────────────────────────── */
+    #hdr {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--hh); z-index: 200;
+      display: flex; align-items: center;
+      padding: 0 clamp(20px, 3vw, 48px);
+      gap: 0;
+      background: rgba(242,237,227,0.95);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(27,58,42,0.12);
+      transition: background var(--dur) var(--ez), border-color var(--dur) var(--ez), box-shadow 250ms ease;
+    }
+    #hdr.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.08); }
+    [data-state="buch"] #hdr {
+      background: rgba(27,58,42,0.96);
+      border-bottom-color: rgba(255,255,255,0.09);
+    }
+
+    .hl { /* logo */
+      display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+      color: var(--g); transition: color var(--dur) var(--ez);
+    }
+    [data-state="buch"] .hl { color: var(--cr); }
+    .hl-mark { width: 38px; height: 30px; }
+    .hl-sep { width: 1px; height: 26px; background: currentColor; opacity: 0.18; }
+    .hl-name {
+      font-family: 'Lexend', sans-serif; font-size: 14px; font-weight: 700;
+      letter-spacing: 0.09em; text-transform: uppercase; line-height: 1;
+    }
+
+    .hn { /* nav */
+      display: flex; align-items: center; gap: 2px; flex: 1; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 300ms ease 180ms;
+    }
+    [data-state="immo"] .hn, [data-state="buch"] .hn { opacity: 1; pointer-events: all; }
+    .hn a {
+      font-family: 'Lexend', sans-serif; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--mu); padding: 8px 14px; border-radius: 4px;
+      transition: color 180ms, background 180ms;
+    }
+    .hn a:hover { color: var(--g); background: rgba(27,58,42,0.07); }
+    [data-state="buch"] .hn a { color: var(--gm); }
+    [data-state="buch"] .hn a:hover { color: var(--cr); background: rgba(255,255,255,0.08); }
+
+    .hr { /* right controls */
+      display: flex; align-items: center; gap: 14px; flex-shrink: 0;
+    }
+    .lang { display: flex; align-items: center; gap: 2px; }
+    .lb {
+      font-family: 'Lexend', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--mu); padding: 4px 6px; transition: color 180ms;
+    }
+    .lb:hover, .lb.on { color: var(--g); }
+    [data-state="buch"] .lb { color: rgba(168,201,182,0.7); }
+    [data-state="buch"] .lb:hover, [data-state="buch"] .lb.on { color: var(--cr); }
+    .ls { font-size: 10px; color: var(--crdk); transition: color var(--dur) var(--ez); }
+    [data-state="buch"] .ls { color: var(--gf); }
+
+    .hcta {
+      font-family: 'Lexend', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      padding: 9px 20px; border-radius: 4px;
+      background: var(--g); color: var(--cr);
+      transition: background 180ms, color 180ms, opacity 300ms ease 180ms;
+      opacity: 0; pointer-events: none;
+    }
+    [data-state="immo"] .hcta, [data-state="buch"] .hcta { opacity: 1; pointer-events: all; }
+    .hcta:hover { background: var(--g2); }
+    [data-state="buch"] .hcta { background: var(--cr); color: var(--g); }
+    [data-state="buch"] .hcta:hover { background: var(--crd); }
+
+    /* ─── DIVIDER LINE ───────────────────────────── */
+    #dvl {
+      position: fixed; top: 0; bottom: 0; left: 50%;
+      width: 1px; background: rgba(0,0,0,0.13); z-index: 50;
+      pointer-events: none;
+      transition: opacity var(--dur) var(--ez), transform var(--dur) var(--ez);
+    }
+    [data-state="immo"] #dvl, [data-state="buch"] #dvl { opacity: 0; }
+
+    /* ─── LAYERS ──────────────────────────────────── */
+    .ly {
+      position: fixed; top: 0; bottom: 0; overflow: hidden;
+      transition: width var(--dur) var(--ez);
+      will-change: width;
+    }
+    .ly-i { left: 0; width: 50%; background: var(--cr); }
+    .ly-b { right: 0; width: 50%; background: var(--g); }
+
+    [data-state="immo"] .ly-i { width: 100%; }
+    [data-state="immo"] .ly-b { width: 0; pointer-events: none; }
+    [data-state="buch"] .ly-b { width: 100%; }
+    [data-state="buch"] .ly-i { width: 0; pointer-events: none; }
+
+    /* Scroll container inside each layer */
+    .lsc {
+      position: absolute; inset: 0;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+    [data-state="immo"] .ly-i .lsc,
+    [data-state="buch"] .ly-b .lsc { overflow-y: auto; }
+
+    /* Scale-in animation on panel content when it activates */
+    @keyframes scaleIn {
+      from { transform: scale(0.968); opacity: 0.7; }
+      to   { transform: scale(1);     opacity: 1; }
+    }
+    [data-state="immo"] .ly-i .lsc,
+    [data-state="buch"] .ly-b .lsc {
+      animation: scaleIn var(--dur) var(--ezo) both;
+    }
+
+    /* Click overlay — active in split state, transparent when service active */
+    .lov {
+      position: absolute; inset: 0; z-index: 10;
+      cursor: pointer;
+    }
+    [data-state="immo"] .ly-i .lov,
+    [data-state="buch"] .ly-b .lov,
+    [data-state="immo"] .ly-b .lov,
+    [data-state="buch"] .ly-i .lov { pointer-events: none; }
+
+    /* Hover shimmer on panels in split state */
+    [data-state="split"] .lov::after {
+      content: ''; position: absolute; inset: 0;
+      opacity: 0; transition: opacity 250ms ease;
+    }
+    [data-state="split"] .lov:hover::after { opacity: 1; }
+    .ly-i .lov::after { background: rgba(27,58,42,0.04); }
+    .ly-b .lov::after { background: rgba(255,255,255,0.05); }
+
+    /* ─── FLOAT TABS ─────────────────────────────── */
+    .ftab {
+      position: fixed; top: 50%; z-index: 150;
+      width: 38px; height: 88px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 350ms ease 220ms, transform 280ms var(--ezo);
+    }
+    .ftab svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    /* Buch tab: right edge, shown when immo is active */
+    #ft-b {
+      right: 0; border-radius: 10px 0 0 10px;
+      background: var(--g); color: var(--cr);
+      transform: translateY(-50%) translateX(100%);
+    }
+    [data-state="immo"] #ft-b {
+      opacity: 1; pointer-events: all;
+      transform: translateY(-50%) translateX(0);
+    }
+    [data-state="immo"] #ft-b:hover { transform: translateY(-50%) translateX(-5px); }
+
+    /* Immo tab: left edge, shown when buch is active */
+    #ft-i {
+      left: 0; border-radius: 0 10px 10px 0;
+      background: var(--cr); color: var(--g);
+      transform: translateY(-50%) translateX(-100%);
+    }
+    [data-state="buch"] #ft-i {
+      opacity: 1; pointer-events: all;
+      transform: translateY(-50%) translateX(0);
+    }
+    [data-state="buch"] #ft-i:hover { transform: translateY(-50%) translateX(5px); }
+
+    /* ─── HERO ───────────────────────────────────── */
+    .hero {
+      min-height: 100vh; position: relative; overflow: hidden;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: var(--hh) clamp(28px,5vw,72px) 64px;
+    }
+    .hwm { /* watermark */
+      position: absolute; right: -4%; bottom: -8%;
+      width: min(340px, 52%); pointer-events: none;
+    }
+    .ly-i .hwm { color: var(--g); opacity: 0.05; }
+    .ly-b .hwm { color: var(--cr); opacity: 0.07; }
+
+    .hey { /* eyebrow */
+      font-family: 'Lexend', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+    }
+    .hey::before { content: ''; display: block; width: 26px; height: 1px; background: currentColor; }
+    .ly-i .hey { color: var(--gf); }
+    .ly-b .hey { color: var(--gm); }
+
+    .hh1 {
+      font-family: 'Lexend', sans-serif;
+      font-size: clamp(30px, 4.2vw, 68px);
+      font-weight: 800; line-height: 1.06; letter-spacing: -0.025em;
+      margin-bottom: 20px;
+    }
+    .ly-i .hh1 { color: var(--g); }
+    .ly-b .hh1 { color: var(--cr); }
+
+    .hsub {
+      font-size: clamp(14px, 1.3vw, 17px); line-height: 1.7;
+      max-width: 460px; margin-bottom: 32px;
+    }
+    .ly-i .hsub { color: var(--mu); }
+    .ly-b .hsub { color: var(--gm); }
+
+    /* Split-state click prompt */
+    .hprompt {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-family: 'Lexend', sans-serif; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      transition: opacity 250ms ease, gap 200ms ease;
+    }
+    .hprompt svg { width: 15px; height: 15px; transition: transform 200ms ease; }
+    .lov:hover ~ .lsc .hprompt { gap: 14px; }
+    .lov:hover ~ .lsc .hprompt svg { transform: translateX(3px); }
+    .ly-i .hprompt { color: var(--g); }
+    .ly-b .hprompt { color: var(--cr); }
+    [data-state="immo"] .ly-i .hprompt,
+    [data-state="buch"] .ly-b .hprompt { opacity: 0; pointer-events: none; }
+
+    /* Active-state CTA buttons */
+    .hctas {
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+      margin-top: 6px;
+      opacity: 0; pointer-events: none;
+      transform: translateY(12px);
+      transition: opacity 350ms ease 280ms, transform 350ms ease 280ms;
+    }
+    [data-state="immo"] .ly-i .hctas,
+    [data-state="buch"] .ly-b .hctas { opacity: 1; pointer-events: all; transform: none; }
+
+    .bp { /* primary button */
+      font-family: 'Lexend', sans-serif; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 13px 26px; border-radius: 4px; display: inline-flex; align-items: center; gap: 8px;
+      transition: background 180ms, transform 150ms;
+    }
+    .bp:hover { transform: translateY(-1px); }
+    .ly-i .bp { background: var(--g); color: var(--cr); }
+    .ly-i .bp:hover { background: var(--g2); }
+    .ly-b .bp { background: var(--cr); color: var(--g); }
+    .ly-b .bp:hover { background: var(--crd); }
+
+    .bo { /* outline button */
+      font-family: 'Lexend', sans-serif; font-size: 12px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 12px 22px; border-radius: 4px; border: 1.5px solid currentColor;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: background 180ms, color 180ms;
+    }
+    .ly-i .bo { color: var(--g); }
+    .ly-i .bo:hover { background: var(--g); color: var(--cr); }
+    .ly-b .bo { color: var(--gm); }
+    .ly-b .bo:hover { background: rgba(255,255,255,0.1); color: var(--cr); border-color: rgba(255,255,255,0.3); }
+
+    /* ─── SECTION TYPOGRAPHY ─────────────────────── */
+    .sec { padding: 88px clamp(28px,5vw,72px); }
+
+    .ey { /* eyebrow */
+      font-family: 'Lexend', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+    }
+    .ey::before { content: ''; display: block; width: 22px; height: 1px; background: currentColor; }
+    .ly-i .ey { color: var(--gf); }
+    .ly-b .ey { color: var(--gm); }
+
+    .sh2 {
+      font-family: 'Lexend', sans-serif;
+      font-size: clamp(22px, 2.8vw, 40px);
+      font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 12px;
+    }
+    .ly-i .sh2 { color: var(--g); }
+    .ly-b .sh2 { color: var(--cr); }
+
+    .srul { display: block; width: 48px; height: 2px; margin-bottom: 52px; }
+    .ly-i .srul { background: var(--g); }
+    .ly-b .srul { background: var(--gm); }
+
+    /* ─── SERVICES GRID ──────────────────────────── */
+    .sgrid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      border-top: 1px solid;
+    }
+    .ly-i .sgrid { border-color: var(--crd); }
+    .ly-b .sgrid { border-color: rgba(255,255,255,0.1); }
+
+    .si {
+      display: flex; gap: 18px; align-items: flex-start;
+      padding: 30px 36px 30px 0; border-bottom: 1px solid;
+    }
+    .si:nth-child(even) { padding: 30px 0 30px 36px; border-left: 1px solid; }
+    .ly-i .si { border-color: var(--crd); }
+    .ly-b .si { border-color: rgba(255,255,255,0.1); }
+
+    .si-ico {
+      width: 40px; height: 40px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px;
+    }
+    .si-ico svg { width: 20px; height: 20px; }
+    .ly-i .si-ico { background: rgba(27,58,42,0.09); color: var(--g); }
+    .ly-b .si-ico { background: rgba(255,255,255,0.08); color: var(--gm); }
+
+    .si-t {
+      font-family: 'Lexend', sans-serif; font-size: 14px; font-weight: 700;
+      line-height: 1.3; margin-bottom: 6px;
+    }
+    .ly-i .si-t { color: var(--g); }
+    .ly-b .si-t { color: var(--cr); }
+
+    .si-d { font-size: 13px; line-height: 1.6; }
+    .ly-i .si-d { color: var(--mu); }
+    .ly-b .si-d { color: var(--gm); }
+
+    .sftr {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 0 0; margin-top: 4px; gap: 16px; flex-wrap: wrap;
+      border-top: 1px solid;
+    }
+    .ly-i .sftr { border-color: var(--crd); }
+    .ly-b .sftr { border-color: rgba(255,255,255,0.1); }
+    .sftr-t { font-size: 14px; }
+    .ly-i .sftr-t { color: var(--mu); }
+    .ly-b .sftr-t { color: var(--gm); }
+
+    /* ─── USP SECTION ────────────────────────────── */
+    .usec {
+      padding: 88px clamp(28px,5vw,72px);
+      margin-top: 24px;
+    }
+    .ly-i .usec { background: var(--g); }
+    .ly-b .usec { background: rgba(0,0,0,0.22); }
+
+    .uey {
+      font-family: 'Lexend', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--gm); display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+    }
+    .uey::before { content: ''; display: block; width: 22px; height: 1px; background: currentColor; }
+    .ush2 {
+      font-family: 'Lexend', sans-serif; font-size: clamp(22px, 2.8vw, 40px);
+      font-weight: 800; line-height: 1.1; letter-spacing: -0.02em;
+      color: var(--cr); margin-bottom: 10px;
+    }
+    .ushdr { margin-bottom: 48px; }
+    .ushdr-r { display: block; width: 48px; height: 2px; background: var(--gm); }
+
+    .ugrid { display: grid; grid-template-columns: repeat(3,1fr); gap: 3px; }
+    .uc {
+      background: rgba(255,255,255,0.05); padding: 36px 28px; border-radius: 2px;
+    }
+    .uc-ico {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,255,255,0.09); color: var(--gm);
+      display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+    }
+    .uc-ico svg { width: 22px; height: 22px; }
+    .uc-t {
+      font-family: 'Lexend', sans-serif; font-size: 16px; font-weight: 700;
+      color: var(--cr); letter-spacing: -0.01em; margin-bottom: 10px; line-height: 1.25;
+    }
+    .uc-d { font-size: 14px; line-height: 1.65; color: var(--gm); }
+    .utag {
+      text-align: center; margin-top: 48px;
+      font-family: 'Lexend', sans-serif; font-size: 12px; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase; color: var(--gm);
+    }
+
+    /* ─── CONTACT ────────────────────────────────── */
+    .csec {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
+      padding: 88px clamp(28px,5vw,72px);
+    }
+    .ly-i .csec { background: var(--crd); }
+    .ly-b .csec { background: var(--g2); }
+
+    .cey {
+      font-family: 'Lexend', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+    }
+    .cey::before { content: ''; display: block; width: 22px; height: 1px; background: currentColor; }
+    .ly-i .cey { color: var(--gf); }
+    .ly-b .cey { color: var(--gm); }
+
+    .ch2 {
+      font-family: 'Lexend', sans-serif; font-size: clamp(20px, 2.5vw, 34px);
+      font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 14px;
+    }
+    .ly-i .ch2 { color: var(--g); }
+    .ly-b .ch2 { color: var(--cr); }
+    .cdesc { font-size: 15px; line-height: 1.7; margin-bottom: 32px; }
+    .ly-i .cdesc { color: var(--mu); }
+    .ly-b .cdesc { color: var(--gm); }
+
+    .cbtns { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .ccard { padding: 32px; border-radius: 8px; }
+    .ly-i .ccard { background: var(--cr); }
+    .ly-b .ccard { background: rgba(0,0,0,0.2); }
+
+    .ccard-n {
+      font-family: 'Lexend', sans-serif; font-size: 15px; font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .ly-i .ccard-n { color: var(--g); }
+    .ly-b .ccard-n { color: var(--cr); }
+
+    .cr-row { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; }
+    .cr-ico { width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px; }
+    .cr-ico svg { width: 16px; height: 16px; }
+    .ly-i .cr-ico { color: var(--gf); }
+    .ly-b .cr-ico { color: var(--gm); }
+    .cr-txt { font-size: 14px; line-height: 1.55; }
+    .ly-i .cr-txt { color: var(--tx); }
+    .ly-b .cr-txt { color: var(--gm); }
+    .cr-txt a:hover { text-decoration: underline; }
+
+    .lbadges { display: flex; gap: 6px; margin-top: 20px; flex-wrap: wrap; }
+    .lbadge {
+      font-family: 'Lexend', sans-serif; font-size: 10px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 20px; border: 1px solid;
+    }
+    .ly-i .lbadge { border-color: var(--crdk); color: var(--mu); }
+    .ly-b .lbadge { border-color: rgba(255,255,255,0.2); color: var(--gm); }
+
+    /* ─── FOOTER ─────────────────────────────────── */
+    .ftr {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 36px clamp(28px,5vw,72px); gap: 24px; flex-wrap: wrap;
+      border-top: 1px solid;
+    }
+    .ly-i .ftr { border-color: var(--crd); }
+    .ly-b .ftr { border-color: rgba(255,255,255,0.1); }
+
+    .flogo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Lexend', sans-serif; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.09em; text-transform: uppercase;
+    }
+    .ly-i .flogo { color: var(--g); }
+    .ly-b .flogo { color: var(--cr); }
+    .flogo svg { width: 28px; height: 22px; }
+    .flogo-sep { width: 1px; height: 18px; background: currentColor; opacity: 0.2; }
+
+    .fcopy { font-size: 12px; }
+    .ly-i .fcopy { color: var(--mu); }
+    .ly-b .fcopy { color: var(--gm); }
+
+    .flinks { display: flex; gap: 20px; }
+    .flink { font-size: 12px; font-weight: 500; transition: color 150ms; }
+    .ly-i .flink { color: var(--mu); }
+    .ly-i .flink:hover { color: var(--g); }
+    .ly-b .flink { color: var(--gm); }
+    .ly-b .flink:hover { color: var(--cr); }
+
+    /* ─── SCROLL REVEAL ──────────────────────────── */
+    .rv {
+      opacity: 0; transform: translateY(18px);
+      transition: opacity 580ms ease, transform 580ms ease;
+    }
+    .rv.on { opacity: 1; transform: none; }
+    .rv.d1 { transition-delay: 80ms; }
+    .rv.d2 { transition-delay: 160ms; }
+    .rv.d3 { transition-delay: 240ms; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; }
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────── */
+    @media (max-width: 900px) {
+      .sgrid { grid-template-columns: 1fr; }
+      .si:nth-child(even) { border-left: none; padding-left: 0; }
+      .ugrid { grid-template-columns: 1fr; gap: 2px; }
+      .csec { grid-template-columns: 1fr; gap: 40px; }
+    }
+
+    @media (max-width: 640px) {
+      :root { --hh: 56px; }
+      body { overflow: hidden; }
+
+      .ly-i, .ly-b {
+        width: 100% !important;
+        left: 0; right: 0;
+        transition: height var(--dur) var(--ez), transform var(--dur) var(--ez);
+      }
+      .ly-i { top: 0; height: 50%; }
+      .ly-b { top: 50%; height: 50%; }
+
+      [data-state="immo"] .ly-i { height: 100%; }
+      [data-state="immo"] .ly-b { height: 0; top: 100%; }
+      [data-state="buch"] .ly-b { height: 100%; top: 0; }
+      [data-state="buch"] .ly-i { height: 0; }
+
+      #dvl { display: none; }
+      .hn { display: none; }
+
+      .ftab { width: 80px; height: 36px; top: auto; transform: none; border-radius: 0; }
+      #ft-b {
+        right: 50%; bottom: 0; top: auto;
+        border-radius: 10px 10px 0 0;
+        transform: translateX(50%) translateY(100%);
+      }
+      [data-state="immo"] #ft-b {
+        transform: translateX(50%) translateY(0);
+      }
+      [data-state="immo"] #ft-b:hover { transform: translateX(50%) translateY(-4px); }
+      #ft-i {
+        left: 50%; top: 0;
+        border-radius: 0 0 10px 10px;
+        transform: translateX(-50%) translateY(-100%);
+      }
+      [data-state="buch"] #ft-i {
+        transform: translateX(-50%) translateY(0);
+      }
+      [data-state="buch"] #ft-i:hover { transform: translateX(-50%) translateY(4px); }
+
+      .hero { padding-bottom: 44px; }
+      .sec, .usec, .csec { padding: 56px 20px; }
+      .si { padding: 24px 0; }
+      .si:nth-child(even) { padding: 24px 0; }
+      .sftr { flex-direction: column; align-items: flex-start; }
+      .ftr { flex-direction: column; align-items: flex-start; }
+      .hh1 { font-size: clamp(26px, 8vw, 40px); }
+    }
+  </style>
+</head>
+<body>
+<div id="app" data-state="split">
+
+  <!-- ── HEADER ──────────────────────────────────────── -->
+  <header id="hdr">
+    <a href="#" class="hl" aria-label="AVKUS GmbH">
+      <svg class="hl-mark" viewBox="0 0 44 36" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M2 34L14 4l8 16 8-16 12 30"/>
+      </svg>
+      <div class="hl-sep" aria-hidden="true"></div>
+      <span class="hl-name">AVKUS GmbH</span>
+    </a>
+
+    <nav class="hn" aria-label="Navigation">
+      <a href="#" data-sc="leistungen">Leistungen</a>
+      <a href="#" data-sc="vorteile">Vorteile</a>
+      <a href="#" data-sc="kontakt">Kontakt</a>
+    </nav>
+
+    <div class="hr">
+      <div class="lang" role="group" aria-label="Sprache">
+        <button class="lb on" aria-pressed="true">DE</button>
+        <span class="ls" aria-hidden="true">·</span>
+        <button class="lb" aria-pressed="false">TR</button>
+        <span class="ls" aria-hidden="true">·</span>
+        <button class="lb" aria-pressed="false">EN</button>
+      </div>
+      <a href="#" class="hcta" data-sc="kontakt">Erstgespräch</a>
+    </div>
+  </header>
+
+  <!-- ── DIVIDER ─────────────────────────────────────── -->
+  <div id="dvl" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════════════════════════════════
+       LAYER: IMMOBILIENVERWALTUNG (left / cream)
+  ═══════════════════════════════════════════════════ -->
+  <div class="ly ly-i" id="ly-i">
+    <div class="lov" id="ov-i" role="button" tabindex="0" aria-label="Immobilienverwaltung wählen"></div>
+    <div class="lsc" id="sc-i">
+
+      <!-- HERO -->
+      <section class="hero">
+        <svg class="hwm" viewBox="0 0 200 160" stroke="currentColor" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+          <path d="M10 155L60 15l40 70 40-70 40 140"/>
+        </svg>
+        <p class="hey">Immobilienverwaltung</p>
+        <h1 class="hh1">Verantwortung<br>für Ihre Immobilien.</h1>
+        <p class="hsub">Persönliche Betreuung. Klare Abläufe. Transparente Kommunikation.</p>
+        <div class="hprompt" aria-hidden="true">
+          Jetzt wählen
+          <svg viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 8h10M9 4l4 4-4 4"/>
+          </svg>
+        </div>
+        <div class="hctas">
+          <a href="#" class="bp" data-sc="leistungen">Leistungen entdecken</a>
+          <a href="#" class="bo" data-sc="kontakt">Erstgespräch vereinbaren</a>
+        </div>
+      </section>
+
+      <!-- SERVICES -->
+      <section class="sec" id="i-leistungen">
+        <p class="ey rv">Unsere Leistungen</p>
+        <h2 class="sh2 rv">Was wir für Sie übernehmen.</h2>
+        <span class="srul rv"></span>
+        <div class="sgrid">
+          <div class="si rv">
+            <div class="si-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11"/>
+              </svg>
+            </div>
+            <div>
+              <p class="si-t">WEG-Verwaltung</p>
+              <p class="si-d">Vollständige Betreuung von Wohnungseigentümergemeinschaften – von Jahresabrechnungen bis Beschlussdurchführung.</p>
+            </div>
+          </div>
+          <div class="si rv d1">
+            <div class="si-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16M9 21V9h6v12"/>
+              </svg>
+            </div>
+            <div>
+              <p class="si-t">Mietverwaltung</p>
+              <p class="si-d">Mietermanagement, Vertragsabwicklung, Mieteingangskontrolle und Nebenkostenabrechnungen.</p>
+            </div>
+          </div>
+          <div class="si rv">
+            <div class="si-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="9" r="3"/><path d="M6.168 18.849A4 4 0 0110 17h4a4 4 0 013.834 2.855M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="si-t">Sondereigentumsverwaltung</p>
+              <p class="si-d">Individuelle Betreuung einzelner Wohneinheiten für vermietende Eigentümer.</p>
+            </div>
+          </div>
+          <div class="si rv d1">
+            <div class="si-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="3" width="16" height="18" rx="1"/><path d="M8 8h8M8 11h8M8 14h5"/>
+              </svg>
+            </div>
+            <div>
+              <p class="si-t">Wirtschaftspläne &amp; Jahresabrechnungen</p>
+              <p class="si-d">Transparente Finanzplanung und revisionssichere Jahresabrechnungen.</p>
+            </div>
+          </div>
+          <div class="si rv">
+            <div class="si-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+              </svg>
+            </div>
+            <div>
+              <p class="si-t">Eigentümerversammlungen</p>
+              <p class="si-d">Organisation, Einladung, Protokollführung und Beschlussumsetzung.</p>
+            </div>
+          </div>
+          <div class="si rv d1">
+            <div class="si-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.7 6.3a1 1 0 000 1.4L7 16l-4 1 1-4 7.7-7.7a1 1 0 011.4 0l1.6 1z"/><path d="M12 6l6 6"/>
+              </svg>
+            </div>
+            <div>
+              <p class="si-t">Instandhaltungskoordination</p>
+              <p class="si-d">Beauftragung, Überwachung und Abrechnung von Handwerkern und Dienstleistern.</p>
+            </div>
+          </div>
+        </div>
+        <div class="sftr rv">
+          <p class="sftr-t">Für Eigentümer, WEGs und Investoren in Bremen und Umgebung.</p>
+          <a href="#" class="bp" data-sc="kontakt">Jetzt anfragen</a>
+        </div>
+      </section>
+
+      <!-- BENEFITS -->
+      <section class="usec" id="i-vorteile">
+        <div class="ushdr rv">
+          <p class="uey">Warum AVKUS</p>
+          <h2 class="ush2">Verwaltung, die Ihr Vertrauen verdient.</h2>
+          <span class="ushdr-r"></span>
+        </div>
+        <div class="ugrid">
+          <div class="uc rv">
+            <div class="uc-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+              </svg>
+            </div>
+            <p class="uc-t">Persönliche Verantwortung.</p>
+            <p class="uc-d">Ein fester Ansprechpartner – keine anonymen Callcenter. Wir kennen Ihre Immobilie und Ihre Situation.</p>
+          </div>
+          <div class="uc rv d1">
+            <div class="uc-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+              </svg>
+            </div>
+            <p class="uc-t">Klare Organisation.</p>
+            <p class="uc-d">Strukturierte Abläufe, transparente Zuständigkeiten und lückenlose Dokumentation.</p>
+          </div>
+          <div class="uc rv d2">
+            <div class="uc-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/>
+              </svg>
+            </div>
+            <p class="uc-t">Nachvollziehbare Prozesse.</p>
+            <p class="uc-d">Verständliche Unterlagen und klare Kommunikation – jederzeit und für alle Beteiligten.</p>
+          </div>
+        </div>
+        <p class="utag rv">Persönlich · Strukturiert · Mehrsprachig</p>
+      </section>
+
+      <!-- CONTACT -->
+      <section class="csec" id="i-kontakt">
+        <div>
+          <p class="cey rv">Kontakt</p>
+          <h2 class="ch2 rv">Unverbindliches Erstgespräch vereinbaren.</h2>
+          <p class="cdesc rv">Wir freuen uns auf Ihre Anfrage zur Immobilienverwaltung. Einfach anrufen oder schreiben.</p>
+          <div class="cbtns rv">
+            <a href="mailto:info@avkus.de" class="bp">E-Mail senden</a>
+            <a href="tel:+494215728797" class="bo">Anrufen</a>
+          </div>
+        </div>
+        <div class="ccard rv">
+          <p class="ccard-n">AVKUS GmbH</p>
+          <div class="cr-row">
+            <span class="cr-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/>
+              </svg>
+            </span>
+            <p class="cr-txt">Schwachhauser Heerstraße 179<br>28211 Bremen</p>
+          </div>
+          <div class="cr-row">
+            <span class="cr-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.77a19.79 19.79 0 01-3.07-8.67A2 2 0 012.18 0h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.07 6.07l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 14.92v2z"/>
+              </svg>
+            </span>
+            <p class="cr-txt"><a href="tel:+494215728797">+49 (0)421 57287971</a></p>
+          </div>
+          <div class="cr-row">
+            <span class="cr-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </span>
+            <p class="cr-txt"><a href="mailto:info@avkus.de">info@avkus.de</a></p>
+          </div>
+          <div class="lbadges">
+            <span class="lbadge">Deutsch</span>
+            <span class="lbadge">Türkisch</span>
+            <span class="lbadge">Englisch</span>
+          </div>
+        </div>
+      </section>
+
+      <footer class="ftr">
+        <div class="flogo">
+          <svg viewBox="0 0 44 36" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><path d="M2 34L14 4l8 16 8-16 12 30"/></svg>
+          <div class="flogo-sep"></div>
+          AVKUS GmbH
+        </div>
+        <p class="fcopy">&copy; 2025 AVKUS GmbH · Bremen</p>
+        <nav class="flinks" aria-label="Rechtliches">
+          <a href="#" class="flink">Impressum</a>
+          <a href="#" class="flink">Datenschutz</a>
+        </nav>
+      </footer>
+
+    </div><!-- /sc-i -->
+  </div><!-- /ly-i -->
+
+
+  <!-- ═══════════════════════════════════════════════════
+       LAYER: BUCHHALTUNG (right / dark green)
+  ═══════════════════════════════════════════════════ -->
+  <div class="ly ly-b" id="ly-b">
+    <div class="lov" id="ov-b" role="button" tabindex="0" aria-label="Buchhaltung wählen"></div>
+    <div class="lsc" id="sc-b">
+
+      <!-- HERO -->
+      <section class="hero">
+        <svg class="hwm" viewBox="0 0 200 160" stroke="currentColor" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+          <path d="M10 155L60 15l40 70 40-70 40 140"/>
+        </svg>
+        <p class="hey">Buchhaltung &amp; Backoffice</p>
+        <h2 class="hh1">Zahlen im Griff.<br>Belege in Ordnung.</h2>
+        <p class="hsub">Vollständige Buchführung. Effizienter Backoffice-Service. Sorgfalt bis ins Detail.</p>
+        <div class="hprompt" aria-hidden="true">
+          Jetzt wählen
+          <svg viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 8h10M9 4l4 4-4 4"/>
+          </svg>
+        </div>
+        <div class="hctas">
+          <a href="#" class="bp" data-sc="leistungen">Leistungen entdecken</a>
+          <a href="#" class="bo" data-sc="kontakt">Erstgespräch vereinbaren</a>
+        </div>
+      </section>
+
+      <!-- SERVICES -->
+      <section class="sec" id="b-leistungen">
+        <p class="ey rv">Unsere Leistungen</p>
+        <h2 class="sh2 rv">Was wir für Sie erledigen.</h2>
+        <span class="srul rv"></span>
+        <div class="sgrid">
+          <div class="si rv">
+            <div class="si-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="1"/><path d="M8 12h8M8 8h5M8 16h8"/>
+              </svg>
+            </div>
+            <div>
+              <p class="si-t">Finanzbuchhaltung</p>
+              <p class="si-d">Vollständige laufende Buchführung – ordnungsgemäß, aktuell und steuerkonform.</p>
+            </div>
+          </div>
+          <div class="si rv d1">
+            <div class="si-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/>
+              </svg>
+            </div>
+            <div>
+              <p class="si-t">Lohn- und Gehaltsbuchhaltung</p>
+              <p class="si-d">Korrekte Lohnabrechnungen, Meldungen an Krankenkassen und Behörden.</p>
+            </div>
+          </div>
+          <div class="si rv">
+            <div class="si-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+              </svg>
+            </div>
+            <div>
+              <p class="si-t">Jahresabschlüsse</p>
+              <p class="si-d">Erstellung von Bilanz und Gewinn- und Verlustrechnung in Abstimmung mit Ihrem Steuerberater.</p>
+            </div>
+          </div>
+          <div class="si rv d1">
+            <div class="si-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+              </svg>
+            </div>
+            <div>
+              <p class="si-t">Digitale Belegverwaltung</p>
+              <p class="si-d">Strukturierte, revisionssichere Ablage aller Belege – jederzeit abrufbar.</p>
+            </div>
+          </div>
+          <div class="si rv">
+            <div class="si-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+              </svg>
+            </div>
+            <div>
+              <p class="si-t">Rechnungswesen &amp; Mahnwesen</p>
+              <p class="si-d">Erstellung, Versand und systematische Nachverfolgung offener Forderungen.</p>
+            </div>
+          </div>
+          <div class="si rv d1">
+            <div class="si-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+              </svg>
+            </div>
+            <div>
+              <p class="si-t">Betriebswirtschaftliche Auswertungen</p>
+              <p class="si-d">Regelmäßige BWA und individuelle Reports für fundierte Geschäftsentscheidungen.</p>
+            </div>
+          </div>
+        </div>
+        <div class="sftr rv">
+          <p class="sftr-t">Für Selbstständige, KMU und Immobilienunternehmen.</p>
+          <a href="#" class="bp" data-sc="kontakt">Jetzt anfragen</a>
+        </div>
+      </section>
+
+      <!-- BENEFITS -->
+      <section class="usec" id="b-vorteile">
+        <div class="ushdr rv">
+          <p class="uey">Warum AVKUS</p>
+          <h2 class="ush2">Buchhaltung, der Sie vertrauen können.</h2>
+          <span class="ushdr-r"></span>
+        </div>
+        <div class="ugrid">
+          <div class="uc rv">
+            <div class="uc-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+              </svg>
+            </div>
+            <p class="uc-t">Persönliche Ansprechpartner.</p>
+            <p class="uc-d">Kein Callcenter, kein Ticket-System. Direkter Kontakt zu Ihrer Fachkraft.</p>
+          </div>
+          <div class="uc rv d1">
+            <div class="uc-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+              </svg>
+            </div>
+            <p class="uc-t">Präzise und pünktlich.</p>
+            <p class="uc-d">Fristen einhalten, Fehler vermeiden – damit Sie sich auf Ihr Kerngeschäft konzentrieren.</p>
+          </div>
+          <div class="uc rv d2">
+            <div class="uc-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="1"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+              </svg>
+            </div>
+            <p class="uc-t">Sicher &amp; diskret.</p>
+            <p class="uc-d">Ihre Zahlen bleiben vertraulich. Datenschutz und Compliance haben bei uns höchste Priorität.</p>
+          </div>
+        </div>
+        <p class="utag rv">Persönlich · Präzise · Mehrsprachig</p>
+      </section>
+
+      <!-- CONTACT -->
+      <section class="csec" id="b-kontakt">
+        <div>
+          <p class="cey rv">Kontakt</p>
+          <h2 class="ch2 rv">Sprechen wir über Ihre Buchhaltung.</h2>
+          <p class="cdesc rv">Unverbindliches Erstgespräch – wir analysieren Ihren Bedarf und machen Ihnen ein passendes Angebot.</p>
+          <div class="cbtns rv">
+            <a href="mailto:info@avkus.de" class="bp">E-Mail senden</a>
+            <a href="tel:+494215728797" class="bo">Anrufen</a>
+          </div>
+        </div>
+        <div class="ccard rv">
+          <p class="ccard-n">AVKUS GmbH</p>
+          <div class="cr-row">
+            <span class="cr-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/>
+              </svg>
+            </span>
+            <p class="cr-txt">Schwachhauser Heerstraße 179<br>28211 Bremen</p>
+          </div>
+          <div class="cr-row">
+            <span class="cr-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.77a19.79 19.79 0 01-3.07-8.67A2 2 0 012.18 0h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.07 6.07l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 14.92v2z"/>
+              </svg>
+            </span>
+            <p class="cr-txt"><a href="tel:+494215728797">+49 (0)421 57287971</a></p>
+          </div>
+          <div class="cr-row">
+            <span class="cr-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </span>
+            <p class="cr-txt"><a href="mailto:info@avkus.de">info@avkus.de</a></p>
+          </div>
+          <div class="lbadges">
+            <span class="lbadge">Deutsch</span>
+            <span class="lbadge">Türkisch</span>
+            <span class="lbadge">Englisch</span>
+          </div>
+        </div>
+      </section>
+
+      <footer class="ftr">
+        <div class="flogo">
+          <svg viewBox="0 0 44 36" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><path d="M2 34L14 4l8 16 8-16 12 30"/></svg>
+          <div class="flogo-sep"></div>
+          AVKUS GmbH
+        </div>
+        <p class="fcopy">&copy; 2025 AVKUS GmbH · Bremen</p>
+        <nav class="flinks" aria-label="Rechtliches">
+          <a href="#" class="flink">Impressum</a>
+          <a href="#" class="flink">Datenschutz</a>
+        </nav>
+      </footer>
+
+    </div><!-- /sc-b -->
+  </div><!-- /ly-b -->
+
+
+  <!-- ── FLOAT TABS ───────────────────────────────────── -->
+  <!-- Switch to Buchhaltung (appears on right when immo is active) -->
+  <button class="ftab" id="ft-b" aria-label="Zur Buchhaltung">
+    <svg viewBox="0 0 18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 9h8M9 5l4 4-4 4"/>
+    </svg>
+  </button>
+
+  <!-- Switch to Immobilien (appears on left when buch is active) -->
+  <button class="ftab" id="ft-i" aria-label="Zur Immobilienverwaltung">
+    <svg viewBox="0 0 18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M13 9H5M9 5L5 9l4 4"/>
+    </svg>
+  </button>
+
+</div><!-- /app -->
+
+<script>
+(function () {
+  const app   = document.getElementById('app');
+  const scI   = document.getElementById('sc-i');
+  const scB   = document.getElementById('sc-b');
+  const hdr   = document.getElementById('hdr');
+  const saved = { i: 0, b: 0 };
+
+  /* ── State machine ─────────────────────────────────── */
+  function select(name) {
+    const prev = app.dataset.state;
+
+    // Save scroll position of outgoing active panel
+    if (prev === 'immo') saved.i = scI.scrollTop;
+    if (prev === 'buch') saved.b = scB.scrollTop;
+
+    app.dataset.state = name;
+
+    // Restore scroll position after CSS applies (double-RAF for reliability)
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (name === 'immo') { scI.scrollTop = saved.i; revealCheck(scI); }
+      if (name === 'buch') { scB.scrollTop = saved.b; revealCheck(scB); }
+    }));
+  }
+
+  /* ── Click targets ─────────────────────────────────── */
+  document.getElementById('ov-i').addEventListener('click', () => select('immo'));
+  document.getElementById('ov-b').addEventListener('click', () => select('buch'));
+  document.getElementById('ft-b').addEventListener('click', () => select('buch'));
+  document.getElementById('ft-i').addEventListener('click', () => select('immo'));
+
+  // Keyboard support on overlays
+  ['ov-i', 'ov-b'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        e.currentTarget.click();
+      }
+    });
+  });
+
+  /* ── Nav / anchor scrolling ────────────────────────── */
+  const HH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--hh')) || 68;
+
+  document.querySelectorAll('[data-sc]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      const st = app.dataset.state;
+      if (st !== 'immo' && st !== 'buch') return;
+      const prefix = st === 'immo' ? 'i' : 'b';
+      const sec = document.getElementById(`${prefix}-${el.dataset.sc}`);
+      const sc  = st === 'immo' ? scI : scB;
+      if (!sec || !sc) return;
+      sc.scrollTo({ top: sec.offsetTop - HH, behavior: 'smooth' });
+    });
+  });
+
+  /* ── Language switcher ─────────────────────────────── */
+  document.querySelectorAll('.lb').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.lb').forEach(b => { b.classList.remove('on'); b.setAttribute('aria-pressed', 'false'); });
+      btn.classList.add('on');
+      btn.setAttribute('aria-pressed', 'true');
+    });
+  });
+
+  /* ── Header scroll shadow ──────────────────────────── */
+  [scI, scB].forEach(sc => {
+    sc.addEventListener('scroll', () => {
+      hdr.classList.toggle('scrolled', sc.scrollTop > 20);
+    }, { passive: true });
+  });
+
+  /* ── Scroll reveal ─────────────────────────────────── */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('on');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
+
+  function revealCheck(root) {
+    (root || document).querySelectorAll('.rv:not(.on)').forEach(el => observer.observe(el));
+  }
+
+  // Observe visible elements on load
+  revealCheck();
+})();
+</script>
+</body>
+</html>
