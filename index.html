@@ -861,9 +861,9 @@
         <div>
           <p class="cey rv">Kontakt</p>
           <h2 class="ch2 rv">Unverbindliches Erstgespräch vereinbaren.</h2>
-          <form class="cform rv" name="erstgespraech-immobilien" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+          <form class="cform rv" name="erstgespraech-immobilien" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
             <input type="hidden" name="form-name" value="erstgespraech-immobilien">
-            <p hidden><input name="bot-field"></p>
+            <p style="display:none"><label>Nicht ausfüllen: <input name="bot-field" type="text" autocomplete="off"></label></p>
             <div class="cf-row">
               <div class="cf-group">
                 <label class="cf-label" for="cf-name-i">Name *</label>
@@ -1092,9 +1092,9 @@
         <div>
           <p class="cey rv">Kontakt</p>
           <h2 class="ch2 rv">Sprechen wir über Ihre Buchhaltung.</h2>
-          <form class="cform rv" name="erstgespraech-buchhaltung" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+          <form class="cform rv" name="erstgespraech-buchhaltung" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
             <input type="hidden" name="form-name" value="erstgespraech-buchhaltung">
-            <p hidden><input name="bot-field"></p>
+            <p style="display:none"><label>Nicht ausfüllen: <input name="bot-field" type="text" autocomplete="off"></label></p>
             <div class="cf-row">
               <div class="cf-group">
                 <label class="cf-label" for="cf-name-b">Name *</label>
@@ -1568,11 +1568,12 @@
       btn.textContent = 'Wird gesendet…';
       btn.disabled = true;
       try {
-        await fetch('/', {
+        const res = await fetch('/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams(new FormData(form)).toString()
         });
+        if (!res.ok) throw new Error(res.status);
         const lang = (document.querySelector('.lb.on') || {}).textContent || 'DE';
         const msg = (LANGS[lang.trim()] || LANGS.DE).formOk;
         form.innerHTML = '<p class="cf-ok">' + msg + '</p>';
