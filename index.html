@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700;800&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/logos/favicon.png" type="image/png">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; }
@@ -56,7 +57,8 @@
       color: var(--g); transition: color var(--dur) var(--ez);
     }
     [data-state="buch"] .hl { color: var(--cr); }
-    .hl-mark { width: 38px; height: 30px; }
+    .hl-mark { width: 36px; height: 36px; object-fit: contain; }
+    [data-state="buch"] .hl-mark { filter: brightness(0) invert(1); }
     .hl-sep { width: 1px; height: 26px; background: currentColor; opacity: 0.18; }
     .hl-name {
       font-family: 'Lexend', sans-serif; font-size: 14px; font-weight: 700;
@@ -81,7 +83,7 @@
     .hr { /* right controls */
       display: flex; align-items: center; gap: 14px; flex-shrink: 0;
     }
-    .lang { display: flex; align-items: center; gap: 2px; }
+    .lang { display: flex; align-items: center; gap: 2px; pointer-events: all; }
     .lb {
       font-family: 'Lexend', sans-serif; font-size: 10px; font-weight: 700;
       letter-spacing: 0.14em; text-transform: uppercase;
@@ -111,9 +113,23 @@
       position: fixed; top: 0; bottom: 0; left: 50%;
       width: 1px; background: rgba(0,0,0,0.13); z-index: 50;
       pointer-events: none;
-      transition: opacity var(--dur) var(--ez), transform var(--dur) var(--ez);
+      transition: opacity var(--dur) var(--ez), transform 380ms cubic-bezier(0.16,1,0.3,1);
     }
     [data-state="immo"] #dvl, [data-state="buch"] #dvl { opacity: 0; }
+
+    /* ─── SPLIT HOVER EXPANSION ─────────────────── */
+    [data-state="split"] .ly {
+      transition: width 600ms cubic-bezier(0.4, 0, 0.2, 1) 60ms;
+    }
+    [data-state="split"] #dvl {
+      transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1) 60ms;
+    }
+    #app.hov-i .ly-i { width: 56%; }
+    #app.hov-i .ly-b { width: 44%; }
+    #app.hov-i #dvl  { transform: translateX(6vw); }
+    #app.hov-b .ly-b { width: 56%; }
+    #app.hov-b .ly-i { width: 44%; }
+    #app.hov-b #dvl  { transform: translateX(-6vw); }
 
     /* ─── LAYERS ──────────────────────────────────── */
     .ly {
@@ -134,6 +150,7 @@
       position: absolute; inset: 0;
       overflow-y: hidden;
       -webkit-overflow-scrolling: touch;
+      min-width: 50vw;
     }
     [data-state="immo"] .ly-i .lsc,
     [data-state="buch"] .ly-b .lsc { overflow-y: auto; }
@@ -170,12 +187,19 @@
     /* ─── FLOAT TABS ─────────────────────────────── */
     .ftab {
       position: fixed; top: 50%; z-index: 150;
-      width: 38px; height: 88px;
-      display: flex; align-items: center; justify-content: center;
+      width: 40px; height: auto; padding: 14px 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 8px;
       opacity: 0; pointer-events: none;
       transition: opacity 350ms ease 220ms, transform 280ms var(--ezo);
     }
-    .ftab svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .ftab svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .ftab-lbl {
+      font-family: 'Lexend', sans-serif; font-size: 7px; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      writing-mode: vertical-rl; text-orientation: mixed;
+      opacity: 0.6; line-height: 1;
+    }
 
     /* Buch tab: right edge, shown when immo is active */
     #ft-b {
@@ -211,8 +235,8 @@
       position: absolute; right: -4%; bottom: -8%;
       width: min(340px, 52%); pointer-events: none;
     }
-    .ly-i .hwm { color: var(--g); opacity: 0.05; }
-    .ly-b .hwm { color: var(--cr); opacity: 0.07; }
+    .ly-i .hwm { opacity: 0.08; }
+    .ly-b .hwm { opacity: 0.10; filter: brightness(0) invert(1); }
 
     .hey { /* eyebrow */
       font-family: 'Lexend', sans-serif; font-size: 10px; font-weight: 700;
@@ -225,7 +249,7 @@
 
     .hh1 {
       font-family: 'Lexend', sans-serif;
-      font-size: clamp(30px, 4.2vw, 68px);
+      font-size: clamp(24px, 3.0vw, 50px);
       font-weight: 800; line-height: 1.06; letter-spacing: -0.025em;
       margin-bottom: 20px;
     }
@@ -432,6 +456,40 @@
 
     .cbtns { display: flex; gap: 12px; flex-wrap: wrap; }
 
+    /* ─── CONTACT FORM ───────────────────────────── */
+    .cform { display: flex; flex-direction: column; gap: 14px; margin-top: 8px; }
+    .cf-group { display: flex; flex-direction: column; gap: 5px; }
+    .cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .cf-label {
+      font-family: 'Lexend', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .ly-i .cf-label { color: var(--gf); }
+    .ly-b .cf-label { color: var(--gm); }
+    .cf-input {
+      width: 100%; padding: 11px 14px; border-radius: 5px;
+      font-size: 14px; font-family: 'Source Sans 3', sans-serif;
+      outline: none; transition: border-color 150ms, box-shadow 150ms;
+      -webkit-appearance: none;
+    }
+    .ly-i .cf-input {
+      background: var(--crd); border: 1px solid var(--crdk); color: var(--tx);
+    }
+    .ly-i .cf-input::placeholder { color: var(--crdk); }
+    .ly-i .cf-input:focus { border-color: var(--gf); box-shadow: 0 0 0 3px rgba(74,124,97,0.12); }
+    .ly-b .cf-input {
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14); color: var(--cr);
+    }
+    .ly-b .cf-input::placeholder { color: rgba(168,201,182,0.4); }
+    .ly-b .cf-input:focus { border-color: var(--gm); box-shadow: 0 0 0 3px rgba(168,201,182,0.14); }
+    .cf-ta { resize: vertical; min-height: 80px; }
+    .cf-ok {
+      font-family: 'Lexend', sans-serif; font-size: 15px; font-weight: 600;
+      padding: 18px 0; line-height: 1.6;
+    }
+    .ly-i .cf-ok { color: var(--g); }
+    .ly-b .cf-ok { color: var(--cr); }
+
     .ccard { padding: 32px; border-radius: 8px; }
     .ly-i .ccard { background: var(--cr); }
     .ly-b .ccard { background: rgba(0,0,0,0.2); }
@@ -478,8 +536,8 @@
     }
     .ly-i .flogo { color: var(--g); }
     .ly-b .flogo { color: var(--cr); }
-    .flogo svg { width: 28px; height: 22px; }
-    .flogo-sep { width: 1px; height: 18px; background: currentColor; opacity: 0.2; }
+    .flogo-img { height: 42px; width: auto; }
+    .ly-b .flogo-img { filter: brightness(0) invert(1); }
 
     .fcopy { font-size: 12px; }
     .ly-i .fcopy { color: var(--mu); }
@@ -587,17 +645,43 @@
       .ftr { flex-direction: column; align-items: flex-start; }
       .hh1 { font-size: clamp(26px, 8vw, 40px); }
     }
+
+    /* ── Custom cursor ──────────────────────────────────────── */
+    /* .has-cursor * { cursor: none !important; } */
+
+    .cur-dot {
+      position: fixed; top: 0; left: 0;
+      width: 6px; height: 6px; margin: -3px 0 0 -3px;
+      border-radius: 50%;
+      background: var(--g);
+      pointer-events: none; z-index: 9999;
+      opacity: 0; will-change: transform;
+      transition: opacity 350ms ease, background 180ms ease;
+    }
+    .cur-ring {
+      position: fixed; top: 0; left: 0;
+      width: 28px; height: 28px; margin: -14px 0 0 -14px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(27,58,42,0.45);
+      pointer-events: none; z-index: 9998;
+      opacity: 0; will-change: transform;
+      transition: opacity 350ms ease, border-color 180ms ease;
+    }
+    .has-cursor .cur-dot,
+    .has-cursor .cur-ring { opacity: 1; }
+    .cur-dot.on-dark  { background: var(--cr); }
+    .cur-ring.on-dark { border-color: rgba(242,237,227,0.55); }
   </style>
 </head>
 <body>
+<div class="cur-dot" aria-hidden="true"></div>
+<div class="cur-ring" aria-hidden="true"></div>
 <div id="app" data-state="split">
 
   <!-- ── HEADER ──────────────────────────────────────── -->
   <header id="hdr">
     <a href="#" class="hl" aria-label="AVKUS GmbH">
-      <svg class="hl-mark" viewBox="0 0 44 36" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
-        <path d="M2 34L14 4l8 16 8-16 12 30"/>
-      </svg>
+      <img class="hl-mark" src="assets/logos/favicon.png" alt="AVKUS Logo">
       <div class="hl-sep" aria-hidden="true"></div>
       <span class="hl-name">AVKUS GmbH</span>
     </a>
@@ -636,9 +720,7 @@
           <source src="assets/videos/apartment.mp4" type="video/mp4">
         </video>
         <div class="hovl" aria-hidden="true"></div>
-        <svg class="hwm" viewBox="0 0 200 160" stroke="currentColor" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
-          <path d="M10 155L60 15l40 70 40-70 40 140"/>
-        </svg>
+        <img class="hwm" src="assets/logos/favicon.png" alt="" aria-hidden="true">
         <div class="hbody">
           <p class="hey">Immobilienverwaltung</p>
           <h1 class="hh1">Verantwortung<br>für Ihre Immobilien.</h1>
@@ -669,30 +751,8 @@
               </svg>
             </div>
             <div>
-              <p class="si-t">WEG-Verwaltung</p>
-              <p class="si-d">Vollständige Betreuung von Wohnungseigentümergemeinschaften – von Jahresabrechnungen bis Beschlussdurchführung.</p>
-            </div>
-          </div>
-          <div class="si rv d1">
-            <div class="si-ico">
-              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 21V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16M9 21V9h6v12"/>
-              </svg>
-            </div>
-            <div>
-              <p class="si-t">Mietverwaltung</p>
-              <p class="si-d">Mietermanagement, Vertragsabwicklung, Mieteingangskontrolle und Nebenkostenabrechnungen.</p>
-            </div>
-          </div>
-          <div class="si rv">
-            <div class="si-ico">
-              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="9" r="3"/><path d="M6.168 18.849A4 4 0 0110 17h4a4 4 0 013.834 2.855M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-            </div>
-            <div>
-              <p class="si-t">Sondereigentumsverwaltung</p>
-              <p class="si-d">Individuelle Betreuung einzelner Wohneinheiten für vermietende Eigentümer.</p>
+              <p class="si-t">WEG-, Miet- und Sondereigentumsverwaltung</p>
+              <p class="si-d">Vollständige Betreuung von Eigentümergemeinschaften, Mietobjekten und individuellem Sondereigentum.</p>
             </div>
           </div>
           <div class="si rv d1">
@@ -702,19 +762,41 @@
               </svg>
             </div>
             <div>
-              <p class="si-t">Wirtschaftspläne &amp; Jahresabrechnungen</p>
+              <p class="si-t">Wirtschaftspläne und Jahresabrechnungen</p>
               <p class="si-d">Transparente Finanzplanung und revisionssichere Jahresabrechnungen.</p>
             </div>
           </div>
           <div class="si rv">
             <div class="si-ico">
               <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+              </svg>
+            </div>
+            <div>
+              <p class="si-t">Betriebs- und Nebenkostenmanagement</p>
+              <p class="si-d">Sorgfältige Erfassung, Abrechnung und Kontrolle aller betriebs- und mietrechtlichen Kosten.</p>
+            </div>
+          </div>
+          <div class="si rv d1">
+            <div class="si-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
               </svg>
             </div>
             <div>
-              <p class="si-t">Eigentümerversammlungen</p>
-              <p class="si-d">Organisation, Einladung, Protokollführung und Beschlussumsetzung.</p>
+              <p class="si-t">Eigentümerversammlungen und Beschlussumsetzung</p>
+              <p class="si-d">Organisation, Einladung, Protokollführung und konsequente Umsetzung aller Beschlüsse.</p>
+            </div>
+          </div>
+          <div class="si rv">
+            <div class="si-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16M9 21V9h6v12"/>
+              </svg>
+            </div>
+            <div>
+              <p class="si-t">Mieter-, Vertrags- und Zahlungsmanagement</p>
+              <p class="si-d">Mieterbetreuung, Vertragsverwaltung und lückenlose Überwachung aller Zahlungsströme.</p>
             </div>
           </div>
           <div class="si rv d1">
@@ -724,8 +806,8 @@
               </svg>
             </div>
             <div>
-              <p class="si-t">Instandhaltungskoordination</p>
-              <p class="si-d">Beauftragung, Überwachung und Abrechnung von Handwerkern und Dienstleistern.</p>
+              <p class="si-t">Dienstleister- und Instandhaltungskoordination</p>
+              <p class="si-d">Beauftragung, Überwachung und Abrechnung von Handwerkern und externen Dienstleistern.</p>
             </div>
           </div>
         </div>
@@ -779,11 +861,32 @@
         <div>
           <p class="cey rv">Kontakt</p>
           <h2 class="ch2 rv">Unverbindliches Erstgespräch vereinbaren.</h2>
-          <p class="cdesc rv">Wir freuen uns auf Ihre Anfrage zur Immobilienverwaltung. Einfach anrufen oder schreiben.</p>
-          <div class="cbtns rv">
-            <a href="mailto:info@avkus.de" class="bp">E-Mail senden</a>
-            <a href="tel:+494215728797" class="bo">Anrufen</a>
-          </div>
+          <form class="cform rv" name="erstgespraech-immobilien" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="erstgespraech-immobilien">
+            <p hidden><input name="bot-field"></p>
+            <div class="cf-row">
+              <div class="cf-group">
+                <label class="cf-label" for="cf-name-i">Name *</label>
+                <input class="cf-input" type="text" id="cf-name-i" name="name" required>
+              </div>
+              <div class="cf-group">
+                <label class="cf-label" for="cf-tel-i">Telefon</label>
+                <input class="cf-input" type="tel" id="cf-tel-i" name="telefon">
+              </div>
+            </div>
+            <div class="cf-group">
+              <label class="cf-label" for="cf-email-i">E-Mail *</label>
+              <input class="cf-input" type="email" id="cf-email-i" name="email" required>
+            </div>
+            <div class="cf-group">
+              <label class="cf-label" for="cf-msg-i">Nachricht</label>
+              <textarea class="cf-input cf-ta" id="cf-msg-i" name="nachricht" rows="3"></textarea>
+            </div>
+            <div class="cbtns">
+              <button type="submit" class="bp">Anfrage senden</button>
+              <a href="tel:+494215728797" class="bo">Direkt anrufen</a>
+            </div>
+          </form>
         </div>
         <div class="ccard rv">
           <p class="ccard-n">AVKUS GmbH</p>
@@ -821,14 +924,13 @@
 
       <footer class="ftr">
         <div class="flogo">
-          <svg viewBox="0 0 44 36" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><path d="M2 34L14 4l8 16 8-16 12 30"/></svg>
-          <div class="flogo-sep"></div>
-          AVKUS GmbH
+          <img class="flogo-img" src="assets/logos/logo_tall.png" alt="AVKUS">
         </div>
         <p class="fcopy">&copy; 2025 AVKUS GmbH · Bremen</p>
         <nav class="flinks" aria-label="Rechtliches">
-          <a href="#" class="flink">Impressum</a>
-          <a href="#" class="flink">Datenschutz</a>
+          <a href="/impressum" class="flink">Impressum</a>
+          <a href="/datenschutz" class="flink">Datenschutz</a>
+          <a href="/agb" class="flink">AGB</a>
         </nav>
       </footer>
 
@@ -849,9 +951,7 @@
           <source src="assets/videos/desk.mp4" type="video/mp4">
         </video>
         <div class="hovl" aria-hidden="true"></div>
-        <svg class="hwm" viewBox="0 0 200 160" stroke="currentColor" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
-          <path d="M10 155L60 15l40 70 40-70 40 140"/>
-        </svg>
+        <img class="hwm" src="assets/logos/favicon.png" alt="" aria-hidden="true">
         <div class="hbody">
           <p class="hey">Buchhaltung &amp; Backoffice</p>
           <h2 class="hh1">Zahlen im Griff.<br>Belege in Ordnung.</h2>
@@ -882,8 +982,8 @@
               </svg>
             </div>
             <div>
-              <p class="si-t">Finanzbuchhaltung</p>
-              <p class="si-d">Vollständige laufende Buchführung – ordnungsgemäß, aktuell und steuerkonform.</p>
+              <p class="si-t">Buchen laufender Geschäftsvorfälle</p>
+              <p class="si-d">Ordnungsgemäße und steuerlich einwandfreie Erfassung aller Geschäftsvorgänge.</p>
             </div>
           </div>
           <div class="si rv d1">
@@ -893,8 +993,30 @@
               </svg>
             </div>
             <div>
-              <p class="si-t">Lohn- und Gehaltsbuchhaltung</p>
-              <p class="si-d">Korrekte Lohnabrechnungen, Meldungen an Krankenkassen und Behörden.</p>
+              <p class="si-t">Lohn- und Gehaltsabrechnung</p>
+              <p class="si-d">Korrekte Lohnabrechnungen sowie Meldungen an Krankenkassen und Behörden.</p>
+            </div>
+          </div>
+          <div class="si rv">
+            <div class="si-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+              </svg>
+            </div>
+            <div>
+              <p class="si-t">Beleg- und Dokumentenorganisation</p>
+              <p class="si-d">Strukturierte, revisionssichere Ablage und digitale Verwaltung aller Unterlagen.</p>
+            </div>
+          </div>
+          <div class="si rv d1">
+            <div class="si-ico">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+              </svg>
+            </div>
+            <div>
+              <p class="si-t">Debitoren- und Kreditorenmanagement</p>
+              <p class="si-d">Systemische Erfassung, Kontrolle und Steuerung von Forderungen und Verbindlichkeiten.</p>
             </div>
           </div>
           <div class="si rv">
@@ -904,30 +1026,8 @@
               </svg>
             </div>
             <div>
-              <p class="si-t">Jahresabschlüsse</p>
-              <p class="si-d">Erstellung von Bilanz und Gewinn- und Verlustrechnung in Abstimmung mit Ihrem Steuerberater.</p>
-            </div>
-          </div>
-          <div class="si rv d1">
-            <div class="si-ico">
-              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
-              </svg>
-            </div>
-            <div>
-              <p class="si-t">Digitale Belegverwaltung</p>
-              <p class="si-d">Strukturierte, revisionssichere Ablage aller Belege – jederzeit abrufbar.</p>
-            </div>
-          </div>
-          <div class="si rv">
-            <div class="si-ico">
-              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
-              </svg>
-            </div>
-            <div>
-              <p class="si-t">Rechnungswesen &amp; Mahnwesen</p>
-              <p class="si-d">Erstellung, Versand und systematische Nachverfolgung offener Forderungen.</p>
+              <p class="si-t">Administrative Unternehmensorganisation</p>
+              <p class="si-d">Unterstützung bei Büroorganisation, Schriftverkehr und behördlichen Meldungen.</p>
             </div>
           </div>
           <div class="si rv d1">
@@ -937,8 +1037,8 @@
               </svg>
             </div>
             <div>
-              <p class="si-t">Betriebswirtschaftliche Auswertungen</p>
-              <p class="si-d">Regelmäßige BWA und individuelle Reports für fundierte Geschäftsentscheidungen.</p>
+              <p class="si-t">Koordination von Banken, Behörden und Fachpartnern</p>
+              <p class="si-d">Professionelle Kommunikation mit Finanzämtern, Banken und externen Fachstellen.</p>
             </div>
           </div>
         </div>
@@ -992,11 +1092,32 @@
         <div>
           <p class="cey rv">Kontakt</p>
           <h2 class="ch2 rv">Sprechen wir über Ihre Buchhaltung.</h2>
-          <p class="cdesc rv">Unverbindliches Erstgespräch – wir analysieren Ihren Bedarf und machen Ihnen ein passendes Angebot.</p>
-          <div class="cbtns rv">
-            <a href="mailto:info@avkus.de" class="bp">E-Mail senden</a>
-            <a href="tel:+494215728797" class="bo">Anrufen</a>
-          </div>
+          <form class="cform rv" name="erstgespraech-buchhaltung" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="erstgespraech-buchhaltung">
+            <p hidden><input name="bot-field"></p>
+            <div class="cf-row">
+              <div class="cf-group">
+                <label class="cf-label" for="cf-name-b">Name *</label>
+                <input class="cf-input" type="text" id="cf-name-b" name="name" required>
+              </div>
+              <div class="cf-group">
+                <label class="cf-label" for="cf-tel-b">Telefon</label>
+                <input class="cf-input" type="tel" id="cf-tel-b" name="telefon">
+              </div>
+            </div>
+            <div class="cf-group">
+              <label class="cf-label" for="cf-email-b">E-Mail *</label>
+              <input class="cf-input" type="email" id="cf-email-b" name="email" required>
+            </div>
+            <div class="cf-group">
+              <label class="cf-label" for="cf-msg-b">Nachricht</label>
+              <textarea class="cf-input cf-ta" id="cf-msg-b" name="nachricht" rows="3"></textarea>
+            </div>
+            <div class="cbtns">
+              <button type="submit" class="bp">Anfrage senden</button>
+              <a href="tel:+494215728797" class="bo">Direkt anrufen</a>
+            </div>
+          </form>
         </div>
         <div class="ccard rv">
           <p class="ccard-n">AVKUS GmbH</p>
@@ -1034,14 +1155,13 @@
 
       <footer class="ftr">
         <div class="flogo">
-          <svg viewBox="0 0 44 36" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><path d="M2 34L14 4l8 16 8-16 12 30"/></svg>
-          <div class="flogo-sep"></div>
-          AVKUS GmbH
+          <img class="flogo-img" src="assets/logos/logo_tall.png" alt="AVKUS">
         </div>
         <p class="fcopy">&copy; 2025 AVKUS GmbH · Bremen</p>
         <nav class="flinks" aria-label="Rechtliches">
-          <a href="#" class="flink">Impressum</a>
-          <a href="#" class="flink">Datenschutz</a>
+          <a href="/impressum" class="flink">Impressum</a>
+          <a href="/datenschutz" class="flink">Datenschutz</a>
+          <a href="/agb" class="flink">AGB</a>
         </nav>
       </footer>
 
@@ -1050,18 +1170,20 @@
 
 
   <!-- ── FLOAT TABS ───────────────────────────────────── -->
-  <!-- Switch to Buchhaltung (appears on right when immo is active) -->
-  <button class="ftab" id="ft-b" aria-label="Zur Buchhaltung">
-    <svg viewBox="0 0 18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M5 9h8M9 5l4 4-4 4"/>
-    </svg>
-  </button>
-
-  <!-- Switch to Immobilien (appears on left when buch is active) -->
-  <button class="ftab" id="ft-i" aria-label="Zur Immobilienverwaltung">
+  <!-- Return to overview (appears on right when immo is active) -->
+  <button class="ftab" id="ft-b" aria-label="Zurück zur Übersicht">
     <svg viewBox="0 0 18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M13 9H5M9 5L5 9l4 4"/>
     </svg>
+    <span class="ftab-lbl">Übersicht</span>
+  </button>
+
+  <!-- Return to overview (appears on left when buch is active) -->
+  <button class="ftab" id="ft-i" aria-label="Zurück zur Übersicht">
+    <svg viewBox="0 0 18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 9h8M9 5l4 4-4 4"/>
+    </svg>
+    <span class="ftab-lbl">Übersicht</span>
   </button>
 
 </div><!-- /app -->
@@ -1094,8 +1216,8 @@
   /* ── Click targets ─────────────────────────────────── */
   document.getElementById('ov-i').addEventListener('click', () => select('immo'));
   document.getElementById('ov-b').addEventListener('click', () => select('buch'));
-  document.getElementById('ft-b').addEventListener('click', () => select('buch'));
-  document.getElementById('ft-i').addEventListener('click', () => select('immo'));
+  document.getElementById('ft-b').addEventListener('click', () => select('split'));
+  document.getElementById('ft-i').addEventListener('click', () => select('split'));
 
   // Keyboard support on overlays
   ['ov-i', 'ov-b'].forEach(id => {
@@ -1123,12 +1245,257 @@
     });
   });
 
+  /* ── Translations ──────────────────────────────────── */
+  const LANGS = {
+    DE: {
+      nav: { l: 'Leistungen', v: 'Vorteile', k: 'Kontakt' },
+      hdr: 'Erstgespräch',
+      immo: {
+        eye: 'Immobilienverwaltung',
+        h1: 'Verantwortung<br>für Ihre Immobilien.',
+        sub: 'Persönliche Betreuung. Klare Abläufe. Transparente Kommunikation.',
+        prompt: 'Jetzt wählen',
+        cta1: 'Leistungen entdecken', cta2: 'Erstgespräch vereinbaren',
+        seye: 'Unsere Leistungen', sh2: 'Was wir für Sie übernehmen.',
+        si: [
+          ['WEG-, Miet- und Sondereigentumsverwaltung','Vollständige Betreuung von Eigentümergemeinschaften, Mietobjekten und individuellem Sondereigentum.'],
+          ['Wirtschaftspläne und Jahresabrechnungen','Transparente Finanzplanung und revisionssichere Jahresabrechnungen.'],
+          ['Betriebs- und Nebenkostenmanagement','Sorgfältige Erfassung, Abrechnung und Kontrolle aller betriebs- und mietrechtlichen Kosten.'],
+          ['Eigentümerversammlungen und Beschlussumsetzung','Organisation, Einladung, Protokollführung und konsequente Umsetzung aller Beschlüsse.'],
+          ['Mieter-, Vertrags- und Zahlungsmanagement','Mieterbetreuung, Vertragsverwaltung und lückenlose Überwachung aller Zahlungsströme.'],
+          ['Dienstleister- und Instandhaltungskoordination','Beauftragung, Überwachung und Abrechnung von Handwerkern und externen Dienstleistern.']
+        ],
+        sftr: 'Für Eigentümer, WEGs und Investoren in Bremen und Umgebung.', sftrbtn: 'Jetzt anfragen',
+        ueye: 'Warum AVKUS', uh2: 'Verwaltung, die Ihr Vertrauen verdient.',
+        uc: [
+          ['Persönliche Verantwortung.','Ein fester Ansprechpartner – keine anonymen Callcenter. Wir kennen Ihre Immobilie und Ihre Situation.'],
+          ['Klare Organisation.','Strukturierte Abläufe, transparente Zuständigkeiten und lückenlose Dokumentation.'],
+          ['Nachvollziehbare Prozesse.','Verständliche Unterlagen und klare Kommunikation – jederzeit und für alle Beteiligten.']
+        ],
+        utag: 'Persönlich · Strukturiert · Mehrsprachig',
+        ceye: 'Kontakt', ch2: 'Unverbindliches Erstgespräch vereinbaren.'
+      },
+      buch: {
+        eye: 'Buchhaltung & Backoffice',
+        h1: 'Zahlen im Griff.<br>Belege in Ordnung.',
+        sub: 'Vollständige Buchführung. Effizienter Backoffice-Service. Sorgfalt bis ins Detail.',
+        prompt: 'Jetzt wählen',
+        cta1: 'Leistungen entdecken', cta2: 'Erstgespräch vereinbaren',
+        seye: 'Unsere Leistungen', sh2: 'Was wir für Sie erledigen.',
+        si: [
+          ['Buchen laufender Geschäftsvorfälle','Ordnungsgemäße und steuerlich einwandfreie Erfassung aller Geschäftsvorgänge.'],
+          ['Lohn- und Gehaltsabrechnung','Korrekte Lohnabrechnungen sowie Meldungen an Krankenkassen und Behörden.'],
+          ['Beleg- und Dokumentenorganisation','Strukturierte, revisionssichere Ablage und digitale Verwaltung aller Unterlagen.'],
+          ['Debitoren- und Kreditorenmanagement','Systemische Erfassung, Kontrolle und Steuerung von Forderungen und Verbindlichkeiten.'],
+          ['Administrative Unternehmensorganisation','Unterstützung bei Büroorganisation, Schriftverkehr und behördlichen Meldungen.'],
+          ['Koordination von Banken, Behörden und Fachpartnern','Professionelle Kommunikation mit Finanzämtern, Banken und externen Fachstellen.']
+        ],
+        sftr: 'Für Selbstständige, KMU und Immobilienunternehmen.', sftrbtn: 'Jetzt anfragen',
+        ueye: 'Warum AVKUS', uh2: 'Buchhaltung, der Sie vertrauen können.',
+        uc: [
+          ['Persönliche Ansprechpartner.','Kein Callcenter, kein Ticket-System. Direkter Kontakt zu Ihrer Fachkraft.'],
+          ['Präzise und pünktlich.','Fristen einhalten, Fehler vermeiden – damit Sie sich auf Ihr Kerngeschäft konzentrieren.'],
+          ['Sicher & diskret.','Ihre Zahlen bleiben vertraulich. Datenschutz und Compliance haben bei uns höchste Priorität.']
+        ],
+        utag: 'Persönlich · Präzise · Mehrsprachig',
+        ceye: 'Kontakt', ch2: 'Sprechen wir über Ihre Buchhaltung.'
+      },
+      form: { name: 'Name *', tel: 'Telefon', email: 'E-Mail *', msg: 'Nachricht', submit: 'Anfrage senden', call: 'Direkt anrufen' },
+      tab: 'Übersicht',
+      foot: { imp: 'Impressum', ds: 'Datenschutz', agb: 'AGB' }
+    },
+    TR: {
+      nav: { l: 'Hizmetler', v: 'Avantajlar', k: 'İletişim' },
+      hdr: 'İlk Görüşme',
+      immo: {
+        eye: 'Mülk Yönetimi',
+        h1: 'Mülkünüz İçin<br>Tam Sorumluluk.',
+        sub: 'Kişisel ilgi. Net süreçler. Şeffaf iletişim.',
+        prompt: 'Seçiniz',
+        cta1: 'Hizmetleri keşfet', cta2: 'Görüşme ayarla',
+        seye: 'Hizmetlerimiz', sh2: 'Sizin için üstleniyoruz.',
+        si: [
+          ['WEG-, Kira ve Özel Mülkiyet Yönetimi','Kat mülkiyeti toplulukları, kiralık gayrimenkuller ve özel mülklerin tam kapsamlı yönetimi.'],
+          ['İşletme Planları ve Yıllık Hesaplamalar','Şeffaf finansal planlama ve denetlenebilir yıllık hesaplamalar.'],
+          ['İşletme ve Yan Gider Yönetimi','Tüm işletme ve kira hukuku kapsamındaki giderlerin titizlikle takibi ve hesaplanması.'],
+          ['Kat Maliki Toplantıları ve Kararların Uygulanması','Organizasyon, davet, tutanak tutma ve tüm kararların kararlı biçimde hayata geçirilmesi.'],
+          ['Kiracı, Sözleşme ve Ödeme Yönetimi','Kiracı ilişkileri, sözleşme yönetimi ve tüm ödeme akışlarının eksiksiz takibi.'],
+          ['Hizmet Sağlayıcı ve Bakım Koordinasyonu','Usta ve dış hizmet sağlayıcıların görevlendirilmesi, denetimi ve hesaplanması.']
+        ],
+        sftr: 'Bremen ve çevresindeki mülk sahipleri, WEG\'ler ve yatırımcılar için.', sftrbtn: 'Hemen sorgula',
+        ueye: 'Neden AVKUS', uh2: 'Güveninizi hak eden yönetim.',
+        uc: [
+          ['Kişisel Sorumluluk.','Sabit bir muhatap – anonim çağrı merkezleri yok. Mülkünüzü ve durumunuzu tanıyoruz.'],
+          ['Net Organizasyon.','Yapılandırılmış süreçler, şeffaf sorumluluklar ve eksiksiz belgeler.'],
+          ['Anlaşılır Süreçler.','Anlaşılır belgeler ve net iletişim – her zaman ve tüm taraflar için.']
+        ],
+        utag: 'Kişisel · Yapılandırılmış · Çok Dilli',
+        ceye: 'İletişim', ch2: 'Ücretsiz ilk görüşme ayarlayın.'
+      },
+      buch: {
+        eye: 'Muhasebe & Back Office',
+        h1: 'Rakamlar Kontrolde.<br>Belgeler Düzenli.',
+        sub: 'Tam muhasebe. Verimli back office. Her ayrıntıda özen.',
+        prompt: 'Seçiniz',
+        cta1: 'Hizmetleri keşfet', cta2: 'Görüşme ayarla',
+        seye: 'Hizmetlerimiz', sh2: 'Sizin için hallediyoruz.',
+        si: [
+          ['Cari İşlemlerin Muhasebeleştirilmesi','Tüm iş işlemlerinin usulüne uygun ve vergiye uyumlu şekilde kaydedilmesi.'],
+          ['Bordro ve Maaş Hesaplaması','Doğru ücret hesaplamaları ve sağlık sigortası ile kurumlara bildirimler.'],
+          ['Belge ve Doküman Organizasyonu','Tüm belgelerin yapılandırılmış, denetlenebilir dijital arşivlenmesi.'],
+          ['Alacak ve Borç Yönetimi','Alacak ve borçların sistematik kaydı, kontrolü ve yönetimi.'],
+          ['İdari Şirket Organizasyonu','Büro organizasyonu, yazışmalar ve resmi bildirimler konusunda destek.'],
+          ['Bankalar, Kurumlar ve Uzmanlarla Koordinasyon','Vergi daireleri, bankalar ve dış uzmanlarla profesyonel iletişim.']
+        ],
+        sftr: 'Serbest meslek sahipleri, KOBİ\'ler ve gayrimenkul şirketleri için.', sftrbtn: 'Hemen sorgula',
+        ueye: 'Neden AVKUS', uh2: 'Güvenebileceğiniz muhasebe.',
+        uc: [
+          ['Kişisel Muhataplar.','Çağrı merkezi yok, bilet sistemi yok. Uzmanınızla doğrudan iletişim.'],
+          ['Kesin ve zamanında.','Son teslim tarihlerine uyun, hataları önleyin – böylece asıl işinize odaklanabilirsiniz.'],
+          ['Güvenli & Gizli.','Rakamlarınız gizli kalır. Veri koruma ve uyumluluk bizim için en yüksek önceliktir.']
+        ],
+        utag: 'Kişisel · Kesin · Çok Dilli',
+        ceye: 'İletişim', ch2: 'Muhasebeniz hakkında konuşalım.'
+      },
+      form: { name: 'İsim *', tel: 'Telefon', email: 'E-Posta *', msg: 'Mesaj', submit: 'Talep gönder', call: 'Doğrudan ara' },
+      tab: 'Ana Menü',
+      foot: { imp: 'Künye', ds: 'Gizlilik', agb: 'Genel Koşullar' }
+    },
+    EN: {
+      nav: { l: 'Services', v: 'Benefits', k: 'Contact' },
+      hdr: 'Consultation',
+      immo: {
+        eye: 'Property Management',
+        h1: 'Responsibility<br>for Your Properties.',
+        sub: 'Personal care. Clear processes. Transparent communication.',
+        prompt: 'Choose now',
+        cta1: 'Discover services', cta2: 'Schedule consultation',
+        seye: 'Our Services', sh2: 'What we handle for you.',
+        si: [
+          ['WEG, Rental & Special Property Management','Full management of condominium associations, rental properties and individual units.'],
+          ['Business Plans & Annual Accounts','Transparent financial planning and auditable annual statements.'],
+          ['Operating & Ancillary Cost Management','Careful tracking, billing and control of all operating and tenancy-related costs.'],
+          ['Owner Meetings & Resolution Implementation','Organisation, invitations, minutes and consistent follow-through on all resolutions.'],
+          ['Tenant, Contract & Payment Management','Tenant relations, contract administration and complete oversight of all payment flows.'],
+          ['Service Provider & Maintenance Coordination','Commissioning, supervision and billing of tradespeople and external service providers.']
+        ],
+        sftr: 'For owners, condominium associations and investors in Bremen and the region.', sftrbtn: 'Inquire now',
+        ueye: 'Why AVKUS', uh2: 'Management that earns your trust.',
+        uc: [
+          ['Personal Responsibility.','A dedicated contact person – no anonymous call centers. We know your property and situation.'],
+          ['Clear Organization.','Structured processes, transparent responsibilities and complete documentation.'],
+          ['Transparent Processes.','Clear documents and communication – at all times and for all parties involved.']
+        ],
+        utag: 'Personal · Structured · Multilingual',
+        ceye: 'Contact', ch2: 'Schedule a free consultation.'
+      },
+      buch: {
+        eye: 'Accounting & Back Office',
+        h1: 'Numbers Under Control.<br>Records in Order.',
+        sub: 'Complete bookkeeping. Efficient back-office service. Attention to every detail.',
+        prompt: 'Choose now',
+        cta1: 'Discover services', cta2: 'Schedule consultation',
+        seye: 'Our Services', sh2: 'What we take care of for you.',
+        si: [
+          ['Booking of Current Business Transactions','Proper and tax-compliant recording of all business transactions.'],
+          ['Payroll & Salary Accounting','Accurate payroll processing and notifications to health insurers and authorities.'],
+          ['Document & Receipt Organisation','Structured, auditable archiving and digital management of all records.'],
+          ['Accounts Receivable & Payable Management','Systematic recording, monitoring and control of receivables and liabilities.'],
+          ['Administrative Business Organisation','Support with office organisation, correspondence and official reporting.'],
+          ['Coordination with Banks, Authorities & Partners','Professional communication with tax offices, banks and external specialists.']
+        ],
+        sftr: 'For freelancers, SMEs and real estate companies.', sftrbtn: 'Inquire now',
+        ueye: 'Why AVKUS', uh2: 'Accounting you can rely on.',
+        uc: [
+          ['Personal Contacts.','No call center, no ticket system. Direct contact with your specialist.'],
+          ['Precise and punctual.','Meet deadlines, avoid errors – so you can focus on your core business.'],
+          ['Secure & Discreet.','Your figures remain confidential. Data protection and compliance are our top priority.']
+        ],
+        utag: 'Personal · Precise · Multilingual',
+        ceye: 'Contact', ch2: 'Let\'s talk about your accounting.'
+      },
+      form: { name: 'Name *', tel: 'Phone', email: 'Email *', msg: 'Message', submit: 'Send inquiry', call: 'Call directly' },
+      tab: 'Overview',
+      foot: { imp: 'Imprint', ds: 'Privacy', agb: 'Terms' }
+    }
+  };
+
+  function applyLang(lang) {
+    const t = LANGS[lang];
+    if (!t) return;
+    document.documentElement.lang = lang.toLowerCase();
+
+    const s  = (sel, txt, html) => { const el = document.querySelector(sel); if (el) html ? el.innerHTML = txt : el.textContent = txt; };
+    const sa = (sel, txt) => document.querySelectorAll(sel).forEach(el => el.textContent = txt);
+
+    // Nav
+    sa('.hn [data-sc="leistungen"]', t.nav.l);
+    sa('.hn [data-sc="vorteile"]',   t.nav.v);
+    sa('.hn [data-sc="kontakt"]',    t.nav.k);
+    s('.hcta', t.hdr);
+
+    ['immo','buch'].forEach(key => {
+      const d    = t[key];
+      const pid  = key === 'immo' ? 'i' : 'b';
+      const lyid = key === 'immo' ? '#ly-i' : '#ly-b';
+
+      // Hero
+      s(`${lyid} .hey`, d.eye);
+      s(`${lyid} .hh1`, d.h1, true);
+      s(`${lyid} .hsub`, d.sub);
+      const prompt = document.querySelector(`${lyid} .hprompt`);
+      if (prompt) {
+        const tn = [...prompt.childNodes].find(n => n.nodeType === 3 && n.textContent.trim());
+        if (tn) tn.textContent = d.prompt + ' ';
+      }
+      s(`${lyid} .hctas .bp`, d.cta1);
+      s(`${lyid} .hctas .bo`, d.cta2);
+
+      // Services
+      s(`#${pid}-leistungen .ey`,    d.seye);
+      s(`#${pid}-leistungen .sh2`,   d.sh2);
+      document.querySelectorAll(`#${pid}-leistungen .si-t`).forEach((el, i) => { if (d.si[i]) el.textContent = d.si[i][0]; });
+      document.querySelectorAll(`#${pid}-leistungen .si-d`).forEach((el, i) => { if (d.si[i]) el.textContent = d.si[i][1]; });
+      s(`#${pid}-leistungen .sftr-t`, d.sftr);
+      s(`#${pid}-leistungen .sftr .bp`, d.sftrbtn);
+
+      // Benefits
+      s(`#${pid}-vorteile .uey`, d.ueye);
+      s(`#${pid}-vorteile .ush2`, d.uh2);
+      document.querySelectorAll(`#${pid}-vorteile .uc-t`).forEach((el, i) => { if (d.uc[i]) el.textContent = d.uc[i][0]; });
+      document.querySelectorAll(`#${pid}-vorteile .uc-d`).forEach((el, i) => { if (d.uc[i]) el.textContent = d.uc[i][1]; });
+      s(`#${pid}-vorteile .utag`, d.utag);
+
+      // Contact
+      s(`#${pid}-kontakt .cey`, d.ceye);
+      s(`#${pid}-kontakt .ch2`, d.ch2);
+      const form = document.querySelector(`#${pid}-kontakt .cform`);
+      if (form) {
+        const labels = form.querySelectorAll('.cf-label');
+        [t.form.name, t.form.tel, t.form.email, t.form.msg].forEach((txt, i) => { if (labels[i]) labels[i].textContent = txt; });
+        const sub = form.querySelector('[type="submit"]');
+        if (sub) sub.textContent = t.form.submit;
+        const call = form.querySelector('a.bo');
+        if (call) call.textContent = t.form.call;
+      }
+    });
+
+    // Float tab labels
+    document.querySelectorAll('.ftab-lbl').forEach(el => el.textContent = t.tab);
+
+    // Footer legal links
+    document.querySelectorAll('.flink[href="/impressum"]').forEach(el => el.textContent = t.foot.imp);
+    document.querySelectorAll('.flink[href="/datenschutz"]').forEach(el => el.textContent = t.foot.ds);
+    document.querySelectorAll('.flink[href="/agb"]').forEach(el => el.textContent = t.foot.agb);
+  }
+
   /* ── Language switcher ─────────────────────────────── */
   document.querySelectorAll('.lb').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.lb').forEach(b => { b.classList.remove('on'); b.setAttribute('aria-pressed', 'false'); });
       btn.classList.add('on');
       btn.setAttribute('aria-pressed', 'true');
+      applyLang(btn.textContent.trim());
     });
   });
 
@@ -1188,6 +1555,92 @@
   }
 
   document.querySelectorAll('.hvid').forEach(pingpong);
+
+  /* ── Netlify form submission ───────────────────── */
+  document.querySelectorAll('.cform').forEach(form => {
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const btn = form.querySelector('[type="submit"]');
+      const orig = btn.textContent;
+      btn.textContent = 'Wird gesendet…';
+      btn.disabled = true;
+      try {
+        await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(form)).toString()
+        });
+        form.innerHTML = '<p class="cf-ok">Vielen Dank! Wir melden uns innerhalb von 24 Stunden bei Ihnen.</p>';
+      } catch {
+        btn.textContent = orig;
+        btn.disabled = false;
+      }
+    });
+  });
+
+  /* ── Split hover expansion ─────────────────────────── */
+  const ovI = document.getElementById('ov-i');
+  const ovB = document.getElementById('ov-b');
+
+  function setHover(cls, on) {
+    if (app.dataset.state !== 'split') return;
+    app.classList.toggle(cls, on);
+  }
+
+  ovI.addEventListener('mouseenter', () => setHover('hov-i', true));
+  ovI.addEventListener('mouseleave', () => app.classList.remove('hov-i'));
+  ovB.addEventListener('mouseenter', () => setHover('hov-b', true));
+  ovB.addEventListener('mouseleave', () => app.classList.remove('hov-b'));
+})();
+
+/* ── Custom cursor ─────────────────────────────────────────── */
+(function initCursor() {
+  const dot  = document.querySelector('.cur-dot');
+  const ring = document.querySelector('.cur-ring');
+  if (!dot || !ring) return;
+
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  let ds = 1, rs = 1, tdS = 1, trS = 1;
+  let ready = false;
+
+  document.addEventListener('mousemove', function(e) {
+    if (!ready) {
+      ready = true;
+      document.body.classList.add('has-cursor');
+      rx = e.clientX; ry = e.clientY;
+    }
+    mx = e.clientX; my = e.clientY;
+
+    const under = document.elementFromPoint(mx, my);
+    const onDark = under && under.closest && under.closest('.ly-b');
+    dot.classList.toggle('on-dark', !!onDark);
+    ring.classList.toggle('on-dark', !!onDark);
+  }, { passive: true });
+
+  const hitSel = 'a, button, .lov, .ftab, [role="button"], label, .lb';
+  document.addEventListener('mouseover', function(e) {
+    if (e.target.closest(hitSel)) { tdS = 0.25; trS = 1.5; }
+  });
+  document.addEventListener('mouseout', function(e) {
+    if (e.target.closest(hitSel)) { tdS = 1; trS = 1; }
+  });
+
+  document.addEventListener('mouseleave', function() {
+    dot.style.opacity = '0'; ring.style.opacity = '0';
+  });
+  document.addEventListener('mouseenter', function() {
+    dot.style.opacity = ''; ring.style.opacity = '';
+  });
+
+  (function tick() {
+    rx += (mx - rx) * 0.10;
+    ry += (my - ry) * 0.10;
+    ds += (tdS - ds) * 0.14;
+    rs += (trS - rs) * 0.14;
+    dot.style.transform  = 'translate(' + mx + 'px,' + my + 'px) scale(' + ds.toFixed(3) + ')';
+    ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px) scale(' + rs.toFixed(3) + ')';
+    requestAnimationFrame(tick);
+  })();
 })();
 </script>
 </body>

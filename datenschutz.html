@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Datenschutz – AVKUS GmbH</title>
+  <link rel="icon" href="assets/logos/favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --g: #1B3A2A; --cr: #F2EDE3; --mu: #6b6b6b; --tx: #1a1a1a; }
+    body { font-family: 'Source Sans 3', system-ui, sans-serif; background: var(--cr); color: var(--tx); -webkit-font-smoothing: antialiased; }
+    a { color: var(--g); }
+    a:hover { text-decoration: underline; }
+
+    header {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(242,237,227,0.95); backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(27,58,42,0.12);
+      padding: 0 clamp(20px,5vw,72px);
+      height: 68px; display: flex; align-items: center; gap: 16px;
+    }
+    header img { height: 34px; width: auto; }
+    header a.back {
+      margin-left: auto;
+      font-family: 'Lexend', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--g); text-decoration: none;
+      display: flex; align-items: center; gap: 6px;
+    }
+    header a.back:hover { text-decoration: underline; }
+
+    main {
+      max-width: 720px; margin: 0 auto;
+      padding: 72px clamp(20px,5vw,72px) 96px;
+    }
+    .eyebrow {
+      font-family: 'Lexend', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase; color: #4a7c61;
+      display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+    }
+    .eyebrow::before { content: ''; display: block; width: 26px; height: 1px; background: currentColor; }
+    h1 {
+      font-family: 'Lexend', sans-serif; font-size: clamp(28px,4vw,44px);
+      font-weight: 800; letter-spacing: -0.02em; line-height: 1.1;
+      color: var(--g); margin-bottom: 48px;
+    }
+    h2 {
+      font-family: 'Lexend', sans-serif; font-size: 16px; font-weight: 700;
+      color: var(--g); margin: 36px 0 10px; letter-spacing: 0.01em;
+    }
+    p { font-size: 15px; line-height: 1.75; color: var(--mu); margin-bottom: 12px; }
+    p strong { color: var(--tx); font-weight: 600; }
+    ul { margin: 0 0 12px 20px; }
+    ul li { font-size: 15px; line-height: 1.75; color: var(--mu); margin-bottom: 4px; }
+
+    footer {
+      text-align: center; padding: 32px;
+      font-size: 12px; color: var(--mu);
+      border-top: 1px solid rgba(27,58,42,0.1);
+    }
+    footer a { color: var(--mu); margin: 0 10px; }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="assets/logos/logo_tall.png" alt="AVKUS">
+    <a href="/" class="back">← Zurück</a>
+  </header>
+
+  <main>
+    <p class="eyebrow">Rechtliches</p>
+    <h1>Datenschutzerklärung</h1>
+
+    <h2>1. Verantwortlicher</h2>
+    <p>
+      <strong>AVKUS GmbH</strong><br>
+      Schwachhauser Heerstraße 179, 28211 Bremen<br>
+      E-Mail: <a href="mailto:info@avkus.de">info@avkus.de</a>
+    </p>
+
+    <h2>2. Erhebung und Verarbeitung personenbezogener Daten</h2>
+    <p>Wir erheben personenbezogene Daten, wenn Sie uns diese im Rahmen unseres Kontaktformulars oder per E-Mail mitteilen. Diese Daten werden ausschließlich zur Bearbeitung Ihrer Anfrage verwendet und nicht an Dritte weitergegeben.</p>
+
+    <h2>3. Kontaktformular</h2>
+    <p>Wenn Sie unser Kontaktformular nutzen, werden folgende Daten erhoben:</p>
+    <ul>
+      <li>Name</li>
+      <li>E-Mail-Adresse</li>
+      <li>Telefonnummer (optional)</li>
+      <li>Inhalt Ihrer Nachricht</li>
+    </ul>
+    <p>Die Verarbeitung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO (Vertragsanbahnung) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse). Die Daten werden nach vollständiger Bearbeitung Ihrer Anfrage gelöscht, sofern keine gesetzlichen Aufbewahrungspflichten bestehen.</p>
+
+    <h2>4. Hosting</h2>
+    <p>Diese Website wird bei <strong>Netlify, Inc.</strong> (512 2nd Street, Suite 200, San Francisco, CA 94107, USA) gehostet. Formulardaten werden über Netlify Forms verarbeitet. Weitere Informationen finden Sie in der <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener">Datenschutzerklärung von Netlify</a>.</p>
+
+    <h2>5. Ihre Rechte</h2>
+    <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit sowie das Recht auf Widerspruch. Wenden Sie sich hierfür an: <a href="mailto:info@avkus.de">info@avkus.de</a></p>
+
+    <h2>6. Beschwerderecht</h2>
+    <p>Sie haben das Recht, sich bei der zuständigen Aufsichtsbehörde zu beschweren. In Bremen ist dies die <strong>Landesbeauftragte für Datenschutz und Informationsfreiheit der Freien Hansestadt Bremen</strong>.</p>
+
+    <p style="margin-top: 40px; font-size: 13px;">Stand: Juni 2025</p>
+  </main>
+
+  <footer>
+    &copy; 2025 AVKUS GmbH · Bremen &nbsp;·&nbsp;
+    <a href="/impressum">Impressum</a>
+    <a href="/datenschutz">Datenschutz</a>
+    <a href="/agb">AGB</a>
+  </footer>
+</body>
+</html>
