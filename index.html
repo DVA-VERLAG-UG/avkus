@@ -716,7 +716,7 @@
 
       <!-- HERO -->
       <section class="hero">
-        <video class="hvid" muted playsinline preload="auto">
+        <video class="hvid" muted playsinline preload="auto" poster="assets/videos/apartment.png">
           <source src="assets/videos/apartment.mp4" type="video/mp4">
         </video>
         <div class="hovl" aria-hidden="true"></div>
@@ -947,7 +947,7 @@
 
       <!-- HERO -->
       <section class="hero">
-        <video class="hvid" muted playsinline preload="auto">
+        <video class="hvid" muted playsinline preload="auto" poster="assets/videos/desk.png">
           <source src="assets/videos/desk.mp4" type="video/mp4">
         </video>
         <div class="hovl" aria-hidden="true"></div>
@@ -1301,6 +1301,7 @@
         ceye: 'Kontakt', ch2: 'Sprechen wir über Ihre Buchhaltung.'
       },
       form: { name: 'Name *', tel: 'Telefon', email: 'E-Mail *', msg: 'Nachricht', submit: 'Anfrage senden', call: 'Direkt anrufen' },
+      formOk: 'Vielen Dank! Wir melden uns innerhalb von 24 Stunden bei Ihnen.',
       tab: 'Übersicht',
       foot: { imp: 'Impressum', ds: 'Datenschutz', agb: 'AGB' }
     },
@@ -1358,6 +1359,7 @@
         ceye: 'İletişim', ch2: 'Muhasebeniz hakkında konuşalım.'
       },
       form: { name: 'İsim *', tel: 'Telefon', email: 'E-Posta *', msg: 'Mesaj', submit: 'Talep gönder', call: 'Doğrudan ara' },
+      formOk: 'Teşekkür ederiz! 24 saat içinde sizinle iletişime geçeceğiz.',
       tab: 'Ana Menü',
       foot: { imp: 'Künye', ds: 'Gizlilik', agb: 'Genel Koşullar' }
     },
@@ -1415,6 +1417,7 @@
         ceye: 'Contact', ch2: 'Let\'s talk about your accounting.'
       },
       form: { name: 'Name *', tel: 'Phone', email: 'Email *', msg: 'Message', submit: 'Send inquiry', call: 'Call directly' },
+      formOk: 'Thank you! We will get back to you within 24 hours.',
       tab: 'Overview',
       foot: { imp: 'Imprint', ds: 'Privacy', agb: 'Terms' }
     }
@@ -1570,7 +1573,9 @@
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams(new FormData(form)).toString()
         });
-        form.innerHTML = '<p class="cf-ok">Vielen Dank! Wir melden uns innerhalb von 24 Stunden bei Ihnen.</p>';
+        const lang = (document.querySelector('.lb.on') || {}).textContent || 'DE';
+        const msg = (LANGS[lang.trim()] || LANGS.DE).formOk;
+        form.innerHTML = '<p class="cf-ok">' + msg + '</p>';
       } catch(err) {
         btn.textContent = orig;
         btn.disabled = false;
