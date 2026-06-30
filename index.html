@@ -678,6 +678,19 @@
       [data-state="split"] .ly-b .hey::before { display: none; }
       [data-state="split"] .ly-b .hprompt { justify-content: flex-end; }
 
+      /* No custom cursor on touch */
+      .cur-dot, .cur-ring { display: none; }
+
+      /* Content fade-in after panel expands to full screen */
+      [data-state="immo"] .ly-i .hbody,
+      [data-state="buch"] .ly-b .hbody {
+        animation: mbContentIn 360ms ease 200ms both;
+      }
+      @keyframes mbContentIn {
+        from { opacity: 0; transform: translateY(14px); }
+        to   { opacity: 1; transform: none; }
+      }
+
       /* General mobile spacing */
       .hero { padding-bottom: 44px; }
       .sec, .usec, .csec { padding: 56px 20px; }
