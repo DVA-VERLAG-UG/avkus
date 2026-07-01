@@ -678,7 +678,8 @@
       body { overflow: hidden; }
 
       /* ── Header: compact ── */
-      .hl-wide { height: 26px; }
+      .hl-wide { height: 30px; }
+      #curtain img { height: 32px; }
       .hcta     { display: none !important; }
       .lang     { display: none; }
       .lang-sel {
@@ -1450,6 +1451,11 @@
 
     app.dataset.state = name;
 
+    // Video: play on selection (user gesture = mobile-safe), pause on return
+    if (name === 'immo') { if (vidI) vidI.play().catch(() => {}); if (vidB) vidB.pause(); }
+    if (name === 'buch') { if (vidB) vidB.play().catch(() => {}); if (vidI) vidI.pause(); }
+    if (name === 'split') { if (vidI) vidI.pause(); if (vidB) vidB.pause(); }
+
     // Restore scroll position after CSS applies (double-RAF for reliability)
     requestAnimationFrame(() => requestAnimationFrame(() => {
       if (name === 'immo') { scI.scrollTop = saved.i; revealCheck(scI); }
@@ -1852,10 +1858,12 @@
   revealCheck();
 
   /* ── Ping-pong video playback ──────────────────────── */
-  function pingpong(video) {
+  const vidI = document.querySelector('#ly-i .hvid');
+  const vidB = document.querySelector('#ly-b .hvid');
+
+  function setupPingpong(video) {
     let reversing = false;
     let prev = null;
-
     function reverseFrame(now) {
       const dt = prev !== null ? (now - prev) / 1000 : 1 / 60;
       prev = now;
@@ -1869,7 +1877,6 @@
         video.play().catch(() => {});
       }
     }
-
     video.addEventListener('ended', () => {
       if (reversing) return;
       reversing = true;
@@ -1877,12 +1884,10 @@
       prev = null;
       requestAnimationFrame(reverseFrame);
     });
-
     video.muted = true;
-    video.play().catch(() => {});
   }
 
-  document.querySelectorAll('.hvid').forEach(pingpong);
+  [vidI, vidB].forEach(v => { if (v) setupPingpong(v); });
 
   /* ── Netlify form submission ───────────────────── */
   document.querySelectorAll('.cform').forEach(form => {
