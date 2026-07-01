@@ -586,6 +586,84 @@
     .hwm { z-index: 2; }
     .hbody { position: relative; z-index: 3; }
 
+    /* ─── PRICING TABLE ──────────────────────────── */
+    .psec { padding: 88px clamp(28px,5vw,72px); }
+    .psec-hdr { max-width: 680px; margin-bottom: 40px; }
+    .psh1 {
+      font-family: 'Lexend', sans-serif;
+      font-size: clamp(22px, 2.8vw, 38px);
+      font-weight: 800; line-height: 1.1; letter-spacing: -0.02em;
+      color: var(--cr); margin-bottom: 8px;
+    }
+    .pssub {
+      font-family: 'Lexend', sans-serif; font-size: 14px; font-weight: 600;
+      color: var(--gm); margin-bottom: 14px;
+    }
+    .psdesc { font-size: 15px; line-height: 1.75; color: rgba(242,237,227,0.6); }
+
+    .pgrid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 3px; margin-bottom: 3px;
+    }
+    .pcard {
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 6px;
+      padding: 26px 22px; background: rgba(255,255,255,0.04);
+      display: flex; flex-direction: column; gap: 14px;
+      position: relative;
+    }
+    .pcard--hl {
+      border-color: var(--gm); background: rgba(255,255,255,0.09);
+    }
+    .pcard-badge {
+      position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+      background: var(--gm); color: var(--g);
+      font-family: 'Lexend', sans-serif; font-size: 7.5px; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 20px; white-space: nowrap;
+    }
+    .pcard-tier {
+      font-family: 'Lexend', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase; color: var(--gm);
+    }
+    .pcard--hl .pcard-tier { color: var(--cr); }
+    .pcard-sub {
+      font-family: 'Lexend', sans-serif; font-size: 13px; font-weight: 600;
+      color: var(--cr); line-height: 1.35;
+    }
+    .pcard-list {
+      list-style: none; display: flex; flex-direction: column; gap: 7px;
+      flex: 1;
+    }
+    .pcard-list li {
+      font-size: 13px; line-height: 1.5;
+      color: rgba(242,237,227,0.55);
+      padding-left: 14px; position: relative;
+    }
+    .pcard-list li::before { content: '–'; position: absolute; left: 0; color: var(--gm); }
+    .pcard--hl .pcard-list li { color: rgba(242,237,227,0.8); }
+
+    .pftr {
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 6px;
+      padding: 26px 28px; background: rgba(255,255,255,0.04);
+    }
+    .pftr-t {
+      font-family: 'Lexend', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gm); margin-bottom: 18px;
+    }
+    .pftr-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 32px;
+    }
+    .pftr-item {
+      font-size: 13.5px; color: rgba(242,237,227,0.75);
+      display: flex; align-items: center; gap: 9px;
+    }
+    .pftr-item::before {
+      content: '✓'; font-family: 'Lexend', sans-serif; font-size: 11px;
+      font-weight: 700; color: var(--gm); flex-shrink: 0;
+    }
+    .pcta { margin-top: 40px; display: flex; justify-content: center; }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; }
     }
@@ -596,6 +674,8 @@
       .si:nth-child(even) { border-left: none; padding-left: 0; }
       .ugrid { grid-template-columns: 1fr; gap: 2px; }
       .csec { grid-template-columns: 1fr; gap: 40px; }
+      .pgrid { grid-template-columns: repeat(2, 1fr); }
+      .pftr-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (max-width: 640px) {
@@ -693,7 +773,9 @@
 
       /* General mobile spacing */
       .hero { padding-bottom: 44px; }
-      .sec, .usec, .csec { padding: 56px 20px; }
+      .sec, .usec, .csec, .psec { padding: 56px 20px; }
+      .pgrid { grid-template-columns: 1fr; }
+      .pftr-grid { grid-template-columns: 1fr; }
       .si { padding: 24px 0; }
       .si:nth-child(even) { padding: 24px 0; }
       .sftr { flex-direction: column; align-items: flex-start; }
@@ -1108,6 +1190,95 @@
         </div>
       </section>
 
+      <!-- PRICING TABLE -->
+      <section class="psec" id="b-pakete">
+        <div class="psec-hdr">
+          <h2 class="psh1 rv">Buchhaltung, Lohn und Backoffice.</h2>
+          <p class="pssub rv">Einfach. Persönlich. Mehrsprachig.</p>
+          <p class="psdesc rv">Sie führen Ihr Unternehmen. Wir sorgen im Hintergrund für geordnete Unterlagen, klare Abläufe und verlässliche Ansprechpartner.</p>
+        </div>
+
+        <div class="pgrid">
+          <div class="pcard rv">
+            <p class="pcard-tier">BASIS</p>
+            <p class="pcard-sub">Selbstständige und kleine Unternehmen</p>
+            <ul class="pcard-list">
+              <li>bis 50 Geschäftsvorfälle</li>
+              <li>1 Bankkonto</li>
+              <li>laufende Buchhaltung</li>
+              <li>digitale Belegverarbeitung</li>
+              <li>gebündelte Rückfragen</li>
+              <li>kompakter Monatsstatus</li>
+              <li>fester Ansprechpartner</li>
+            </ul>
+          </div>
+
+          <div class="pcard pcard--hl rv">
+            <span class="pcard-badge">Häufig gewählt</span>
+            <p class="pcard-tier">STANDARD</p>
+            <p class="pcard-sub">Unternehmen mit regelmäßigem Bedarf</p>
+            <ul class="pcard-list">
+              <li>bis 150 Geschäftsvorfälle</li>
+              <li>1 Bank-/Zahlungskonto</li>
+              <li>Debitoren- und Kreditorengrundpflege</li>
+              <li>Kassenbuch</li>
+              <li>bis 3 Lohnabrechnungen</li>
+              <li>Unterlagenübersicht</li>
+              <li>kompakter Monatsstatus</li>
+              <li>reguläre Abstimmung mit Steuerberater</li>
+            </ul>
+          </div>
+
+          <div class="pcard rv d1">
+            <p class="pcard-tier">BUSINESS</p>
+            <p class="pcard-sub">Unternehmen mit mehr Betreuung</p>
+            <ul class="pcard-list">
+              <li>bis 250 Geschäftsvorfälle</li>
+              <li>bis 2 Bank-/Zahlungskonten</li>
+              <li>Debitoren und Kreditoren</li>
+              <li>Kostenstellen und Kassenbuch</li>
+              <li>Reisekosten</li>
+              <li>bis 5 Lohnabrechnungen</li>
+              <li>Fristen- und Unterlagenübersicht</li>
+              <li>ausführlicher Monatsstatus</li>
+              <li>reguläre Abstimmung mit Steuerberater</li>
+            </ul>
+          </div>
+
+          <div class="pcard rv d2">
+            <p class="pcard-tier">PREMIUM</p>
+            <p class="pcard-sub">Weitgehend ausgelagertes Backoffice</p>
+            <ul class="pcard-list">
+              <li>bis 400 Geschäftsvorfälle</li>
+              <li>bis 3 Bank-/Zahlungskonten</li>
+              <li>Debitoren und Kreditoren</li>
+              <li>Kostenstellen, Kasse und Reisekosten</li>
+              <li>bis 8 Lohnabrechnungen</li>
+              <li>Unterstützung bei Fakturierung</li>
+              <li>erweiterte Fristenführung</li>
+              <li>bis 2 Std. Koordination pro Monat</li>
+              <li>priorisierte Bearbeitung</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pftr rv">
+          <p class="pftr-t">In allen Paketen enthalten</p>
+          <div class="pftr-grid">
+            <span class="pftr-item">Persönlicher Ansprechpartner</span>
+            <span class="pftr-item">Klare Zuständigkeiten</span>
+            <span class="pftr-item">Verständliche Kommunikation</span>
+            <span class="pftr-item">Transparente offene Punkte</span>
+            <span class="pftr-item">Mehrsprachige Betreuung</span>
+            <span class="pftr-item">Geordnete Übergabe an den Steuerberater</span>
+          </div>
+        </div>
+
+        <div class="pcta rv">
+          <a href="#" class="bp" data-sc="kontakt">Jetzt anfragen</a>
+        </div>
+      </section>
+
       <!-- BENEFITS -->
       <section class="usec" id="b-vorteile">
         <div class="ushdr rv">
@@ -1358,7 +1529,22 @@
           ['Sicher & diskret.','Ihre Zahlen bleiben vertraulich. Datenschutz und Compliance haben bei uns höchste Priorität.']
         ],
         utag: 'Persönlich · Präzise · Mehrsprachig',
-        ceye: 'Kontakt', ch2: 'Sprechen wir über Ihre Buchhaltung.'
+        ceye: 'Kontakt', ch2: 'Sprechen wir über Ihre Buchhaltung.',
+        pakete: {
+          h1: 'Buchhaltung, Lohn und Backoffice.',
+          sub: 'Einfach. Persönlich. Mehrsprachig.',
+          desc: 'Sie führen Ihr Unternehmen. Wir sorgen im Hintergrund für geordnete Unterlagen, klare Abläufe und verlässliche Ansprechpartner.',
+          badge: 'Häufig gewählt',
+          tiers: [
+            { name: 'BASIS',    sub: 'Selbstständige und kleine Unternehmen',   items: ['bis 50 Geschäftsvorfälle','1 Bankkonto','laufende Buchhaltung','digitale Belegverarbeitung','gebündelte Rückfragen','kompakter Monatsstatus','fester Ansprechpartner'] },
+            { name: 'STANDARD', sub: 'Unternehmen mit regelmäßigem Bedarf',     items: ['bis 150 Geschäftsvorfälle','1 Bank-/Zahlungskonto','Debitoren- und Kreditorengrundpflege','Kassenbuch','bis 3 Lohnabrechnungen','Unterlagenübersicht','kompakter Monatsstatus','reguläre Abstimmung mit Steuerberater'] },
+            { name: 'BUSINESS', sub: 'Unternehmen mit mehr Betreuung',          items: ['bis 250 Geschäftsvorfälle','bis 2 Bank-/Zahlungskonten','Debitoren und Kreditoren','Kostenstellen und Kassenbuch','Reisekosten','bis 5 Lohnabrechnungen','Fristen- und Unterlagenübersicht','ausführlicher Monatsstatus','reguläre Abstimmung mit Steuerberater'] },
+            { name: 'PREMIUM',  sub: 'Weitgehend ausgelagertes Backoffice',     items: ['bis 400 Geschäftsvorfälle','bis 3 Bank-/Zahlungskonten','Debitoren und Kreditoren','Kostenstellen, Kasse und Reisekosten','bis 8 Lohnabrechnungen','Unterstützung bei Fakturierung','erweiterte Fristenführung','bis 2 Std. Koordination pro Monat','priorisierte Bearbeitung'] }
+          ],
+          inclTitle: 'In allen Paketen enthalten',
+          incl: ['Persönlicher Ansprechpartner','Klare Zuständigkeiten','Verständliche Kommunikation','Transparente offene Punkte','Mehrsprachige Betreuung','Geordnete Übergabe an den Steuerberater'],
+          cta: 'Jetzt anfragen'
+        }
       },
       form: { name: 'Name *', tel: 'Telefon', email: 'E-Mail *', msg: 'Nachricht', submit: 'Anfrage senden', call: 'Direkt anrufen' },
       formOk: 'Vielen Dank! Wir melden uns innerhalb von 24 Stunden bei Ihnen.',
@@ -1416,7 +1602,22 @@
           ['Güvenli & Gizli.','Rakamlarınız gizli kalır. Veri koruma ve uyumluluk bizim için en yüksek önceliktir.']
         ],
         utag: 'Kişisel · Kesin · Çok Dilli',
-        ceye: 'İletişim', ch2: 'Muhasebeniz hakkında konuşalım.'
+        ceye: 'İletişim', ch2: 'Muhasebeniz hakkında konuşalım.',
+        pakete: {
+          h1: 'Muhasebe, Bordro ve Backoffice.',
+          sub: 'Basit. Kişisel. Çok Dilli.',
+          desc: 'Siz işletmenizi yönetin. Biz arka planda düzenli belgeler, net süreçler ve güvenilir muhataplar sağlayalım.',
+          badge: 'En Çok Tercih Edilen',
+          tiers: [
+            { name: 'TEMEL',    sub: 'Serbest Meslek ve Küçük İşletmeler',          items: ['Aylık 50 işleme kadar','1 banka hesabı','Cari muhasebe','Dijital belge işleme','Toplu geri bildirim','Kompakt aylık durum raporu','Sabit muhatap'] },
+            { name: 'STANDART', sub: 'Düzenli İhtiyacı Olan İşletmeler',            items: ['Aylık 150 işleme kadar','1 banka/ödeme hesabı','Temel alacak ve borç yönetimi','Kasa defteri','3 bordro hesaplamasına kadar','Belge takibi','Kompakt aylık durum raporu','Vergi danışmanıyla düzenli uyum'] },
+            { name: 'İŞLETME',  sub: 'Daha Fazla Destek İsteyen İşletmeler',        items: ['Aylık 250 işleme kadar','2 banka/ödeme hesabına kadar','Alacak ve borç yönetimi','Maliyet merkezi ve kasa defteri','Seyahat masrafları','5 bordro hesaplamasına kadar','Belge ve süre takibi','Ayrıntılı aylık durum raporu','Vergi danışmanıyla düzenli uyum'] },
+            { name: 'PREMIUM',  sub: 'Büyük Ölçüde Dışarıya Aktarılmış Backoffice', items: ['Aylık 400 işleme kadar','3 banka/ödeme hesabına kadar','Alacak ve borç yönetimi','Maliyet merkezi, kasa ve seyahat masrafları','8 bordro hesaplamasına kadar','Faturalama desteği','Genişletilmiş süre yönetimi','Ayda 2 saate kadar koordinasyon','Öncelikli işleme'] }
+          ],
+          inclTitle: 'Tüm Paketlerde Dahil',
+          incl: ['Kişisel muhatap','Net sorumluluklar','Anlaşılır iletişim','Şeffaf açık noktalar','Çok dilli hizmet','Vergi danışmanına düzenli teslim'],
+          cta: 'Hemen sorgula'
+        }
       },
       form: { name: 'İsim *', tel: 'Telefon', email: 'E-Posta *', msg: 'Mesaj', submit: 'Talep gönder', call: 'Doğrudan ara' },
       formOk: 'Teşekkür ederiz! 24 saat içinde sizinle iletişime geçeceğiz.',
@@ -1474,7 +1675,22 @@
           ['Secure & Discreet.','Your figures remain confidential. Data protection and compliance are our top priority.']
         ],
         utag: 'Personal · Precise · Multilingual',
-        ceye: 'Contact', ch2: 'Let\'s talk about your accounting.'
+        ceye: 'Contact', ch2: 'Let\'s talk about your accounting.',
+        pakete: {
+          h1: 'Bookkeeping, Payroll & Backoffice.',
+          sub: 'Simple. Personal. Multilingual.',
+          desc: 'You run your business. We handle the paperwork, clear processes and dedicated contacts in the background.',
+          badge: 'Most Popular',
+          tiers: [
+            { name: 'BASIC',    sub: 'Freelancers & Small Businesses',           items: ['up to 50 transactions/month','1 bank account','ongoing bookkeeping','digital document processing','bundled queries','compact monthly status','dedicated contact person'] },
+            { name: 'STANDARD', sub: 'Businesses with Regular Needs',            items: ['up to 150 transactions/month','1 bank/payment account','basic accounts receivable & payable','petty cash book','up to 3 payroll statements','document overview','compact monthly status','regular coordination with tax advisor'] },
+            { name: 'BUSINESS', sub: 'Businesses Needing More Support',          items: ['up to 250 transactions/month','up to 2 bank/payment accounts','accounts receivable & payable','cost centres & petty cash book','travel expenses','up to 5 payroll statements','deadline & document overview','detailed monthly status','regular coordination with tax advisor'] },
+            { name: 'PREMIUM',  sub: 'Largely Outsourced Backoffice',            items: ['up to 400 transactions/month','up to 3 bank/payment accounts','accounts receivable & payable','cost centres, cash & travel expenses','up to 8 payroll statements','invoicing support','extended deadline management','up to 2 hrs coordination/month','priority processing'] }
+          ],
+          inclTitle: 'Included in All Packages',
+          incl: ['Personal contact person','Clear responsibilities','Clear communication','Transparent open items','Multilingual service','Organised handover to tax advisor'],
+          cta: 'Inquire now'
+        }
       },
       form: { name: 'Name *', tel: 'Phone', email: 'Email *', msg: 'Message', submit: 'Send inquiry', call: 'Call directly' },
       formOk: 'Thank you! We will get back to you within 24 hours.',
@@ -1540,6 +1756,31 @@
         if (sub) sub.textContent = t.form.submit;
         const call = form.querySelector('a.bo');
         if (call) call.textContent = t.form.call;
+      }
+
+      // Pricing table (buch only)
+      if (key === 'buch' && d.pakete) {
+        const p = d.pakete;
+        s('#b-pakete .psh1',  p.h1);
+        s('#b-pakete .pssub', p.sub);
+        s('#b-pakete .psdesc', p.desc);
+        s('#b-pakete .pcard-badge', p.badge);
+        document.querySelectorAll('#b-pakete .pcard').forEach((card, i) => {
+          if (!p.tiers[i]) return;
+          const tier = p.tiers[i];
+          const tierEl = card.querySelector('.pcard-tier');
+          if (tierEl) tierEl.textContent = tier.name;
+          const subEl = card.querySelector('.pcard-sub');
+          if (subEl) subEl.textContent = tier.sub;
+          card.querySelectorAll('.pcard-list li').forEach((li, j) => {
+            if (tier.items[j] !== undefined) li.textContent = tier.items[j];
+          });
+        });
+        s('#b-pakete .pftr-t', p.inclTitle);
+        document.querySelectorAll('#b-pakete .pftr-item').forEach((el, i) => {
+          if (p.incl[i] !== undefined) el.textContent = p.incl[i];
+        });
+        s('#b-pakete .pcta .bp', p.cta);
       }
     });
 
