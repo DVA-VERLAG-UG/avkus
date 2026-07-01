@@ -57,13 +57,8 @@
       color: var(--g); transition: color var(--dur) var(--ez);
     }
     [data-state="buch"] .hl { color: var(--cr); }
-    .hl-mark { width: 36px; height: 36px; object-fit: contain; }
-    [data-state="buch"] .hl-mark { filter: brightness(0) invert(1); }
-    .hl-sep { width: 1px; height: 26px; background: currentColor; opacity: 0.18; }
-    .hl-name {
-      font-family: 'Lexend', sans-serif; font-size: 14px; font-weight: 700;
-      letter-spacing: 0.09em; text-transform: uppercase; line-height: 1;
-    }
+    .hl-wide { height: 32px; width: auto; object-fit: contain; }
+    [data-state="buch"] .hl-wide { filter: brightness(0) invert(1); }
 
     .hn { /* nav */
       display: flex; align-items: center; gap: 2px; flex: 1; justify-content: center;
@@ -683,7 +678,7 @@
       body { overflow: hidden; }
 
       /* ── Header: compact ── */
-      .hl-name, .hl-sep { display: none; }
+      .hl-wide { height: 26px; }
       .hcta     { display: none !important; }
       .lang     { display: none; }
       .lang-sel {
@@ -818,9 +813,7 @@
   <!-- ── HEADER ──────────────────────────────────────── -->
   <header id="hdr">
     <a href="#" class="hl" aria-label="AVKUS GmbH">
-      <img class="hl-mark" src="assets/logos/favicon.png" alt="AVKUS Logo">
-      <div class="hl-sep" aria-hidden="true"></div>
-      <span class="hl-name">AVKUS GmbH</span>
+      <img class="hl-wide" src="assets/logos/logo_wide.png" alt="AVKUS GmbH">
     </a>
 
     <nav class="hn" aria-label="Navigation">
